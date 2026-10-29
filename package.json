@@ -18,8 +18,8 @@
     "papers:force": "node tools/build-papers.mjs --force",
     "papers:cloud": "node tools/build-papers.mjs --no-convert",
     "tex": "node tools/build-tex.mjs",
-    "preview": "node tools/sync-vault.mjs --inplace && node tools/build-papers.mjs && node tools/build-tex.mjs && npx quartz build --serve",
-    "build": "node tools/sync-vault.mjs --inplace && node tools/build-papers.mjs && node tools/build-tex.mjs && npx quartz build",
+    "preview": "node tools/sync-vault.mjs --inplace && node tools/build-papers.mjs && node tools/build-tex.mjs && node tools/build-status.mjs && npx quartz build --serve",
+    "build": "node tools/sync-vault.mjs --inplace && node tools/build-papers.mjs && node tools/build-tex.mjs && node tools/build-status.mjs && npx quartz build",
     "quartz": "./quartz/bootstrap-cli.mjs",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",
@@ -28,7 +28,8 @@
     "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
     "install-plugins": "npx tsx ./quartz/plugins/loader/install-plugins.ts",
     "prebuild": "npm run install-plugins",
-    "sync:vault": "node tools/sync-vault.mjs"
+    "sync:vault": "node tools/sync-vault.mjs",
+    "status": "node tools/build-status.mjs"
   },
   "engines": {
     "npm": ">=10.9.2",

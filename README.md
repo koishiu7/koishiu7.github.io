@@ -293,6 +293,53 @@ Quartz 默认两侧各 320px，这里按 ArchWiki 的密度收到 **240px**，�
 
 ---
 
+## 移动端适配
+
+断点沿用 Quartz 的 800px：小于 800px 是单列，两侧栏和折叠开关都隐藏。在手机上额外做了这些：
+
+| 问题 | 处理 |
+| --- | --- |
+| 宽表格把页面撑出横向滚动条 | 脚本给 `<table>` 套一层 `.table-wrap`，只有表格自己横向滚 |
+| 手机上没有右侧栏，目录就消失了 | 目录克隆成一个可折叠的 `<details class="mobile-toc">`，插在标题下方 |
+| 顶栏图标太小点不准 | 搜索 / 深色 / 阅读模式 / 侧栏按钮统一 36×36 触控区 |
+| 正文字太小 | 16px、行高 1.78，标题逐级降一档 |
+| 论文 PDF 预览太矮 | iframe 改成 `68vh`（最小 420px），按钮加大 |
+| 长标题把顶栏顶爆 | `.page-title` 单行省略号 |
+
+代码在 `quartz/components/scripts/siteEnhance.ts`（运行时 DOM 增强）和 `custom.scss` 的 `@media all and (max-width: 799.98px)` 段。SPA 跳转会重新跑一遍。
+
+---
+
+## 笔记维护状态：seed / growing / stable
+
+每篇笔记正文上方有一个状态徽标，告诉读者「这篇我整理到什么程度了」，别把随手记当结论读。
+
+在 frontmatter 里写一行就行：
+
+```yaml
+---
+title: 洛克：第一性质与第二性质
+status: growing
+---
+```
+
+| 值 | 徽标 | 含义 |
+| --- | --- | --- |
+| `stable` | 已稳定 | 内容成形，结论和引用都确认过，可以放心读和引用 |
+| `growing` | 生长中 | 结构有了、方向清楚，但还会改，别直接引用 |
+| `seed` | 种子 | 只是把想法先记下来，随时会重写 |
+| `stale` | 待复核 | 当时成立，现在未必；引用前请自己再确认 |
+
+大小写和中英文别名都能认：`stable` / `evergreen` / `mature` / `稳定` / `定稿`、`wip` / `生长` / `整理中`、`draft` / `stub` / `草稿` / `种子`、`outdated` / `过时` / `需更新`。也接受 `maturity:`、`stage:`、`状态:` 这几个字段名。
+
+- **没写 `status:` 的笔记**默认显示虚线边框的「未评估」。不想显示就到 `quartz.config.yaml` 里把 `showUnknown` 改成 `false`。
+- 徽标本身是个链接，点进去是 `/状态` 总览页，按状态把全站笔记分组列出来。
+- `/状态` 由 `tools/build-status.mjs` 生成，单独跑 `npm run status`，`npm run build` / 云端部署时也会自动跑一次。**生成结果要提交回仓库**，不能塞进 `.gitignore`（Quartz 扫内容时会跳过被忽略的文件）。
+
+插件源码在 `plugins/note-polish/index.js`（本地插件）。它顺手还做一件事：如果正文第一个标题和页面标题重复，就把它删掉，避免标题出现两次。
+
+---
+
 ## 草稿与私密内容
 
 - frontmatter 写 `draft: true` → 不发布
@@ -310,10 +357,13 @@ Quartz 默认两侧各 320px，这里按 ArchWiki 的密度收到 **240px**，�
 │       └── papers/       # 论文 PDF（本地或云端转换产出，会提交回仓库）
 ├── tools/
 │   ├── sync-vault.mjs    # 同步 + 图片归类脚本
-│   └── build-papers.mjs  # 论文附件：转换 PDF + 生成预览页
+│   ├── build-papers.mjs  # 论文附件：转换 PDF + 生成预览页
+│   └── build-status.mjs  # 生成「笔记状态总览」页
+├── plugins/note-polish/  # 本地插件：状态徽标 + 去重 H1
 ├── quartz.config.yaml    # 站点配置：标题、配色、插件、布局
 ├── quartz/styles/custom.scss  # ArchWiki 风格样式
 ├── quartz/components/scripts/sidebarToggle.ts  # 两侧栏折叠开关（本站自定义）
+├── quartz/components/scripts/siteEnhance.ts    # 移动端增强：表格滚动 + 折叠目录
 ├── bibliography.bib      # Zotero 导出的文献库
 └── .github/workflows/
     ├── deploy.yml        # 构建 + 发布（不转换文档，秒级）
@@ -331,6 +381,8 @@ Quartz 默认两侧各 320px，这里按 ArchWiki 的密度收到 **240px**，�
 | 字体 | `theme.typography` + `custom.scss` 顶部字体栈 |
 | 右侧栏放什么 | `quartz.config.yaml` 里组件的 `layout.position` |
 | 侧栏宽度 | `custom.scss` → `:root { --aw-sidebar }`（默认 15rem = 240px） |
+| 状态徽标文案 | `plugins/note-polish/index.js` → `STATUSES` |
+| 未标注的笔记是否显示徽标 | `quartz.config.yaml` → note-polish 的 `showUnknown` |
 | 引用样式 | citations 插件的 `csl` |
 
 改完跑 `npm run preview` 看效果，满意再推送。

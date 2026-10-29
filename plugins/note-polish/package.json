@@ -1,0 +1,13 @@
+{
+  "name": "note-polish",
+  "version": "1.0.0",
+  "description": "笔记排版收尾：维护状态徽标（status）+ 去掉与标题重复的正文 H1",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js"
+  ]
+}

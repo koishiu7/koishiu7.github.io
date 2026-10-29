@@ -1,5 +1,6 @@
 ---
 title: Obsidian 与 Quartz 使用指南
+status: stable
 description: 这套知识库的写作、图片归类、论文引用与发布流程。
 tags:
   - 工具

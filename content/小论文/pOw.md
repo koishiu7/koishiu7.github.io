@@ -3,6 +3,7 @@ title: pOw
 description: 论文 · 在线预览与下载
 tags:
   - 论文
+status: stable
 paperFile: /assets/papers/pow.pdf
 generated: true
 ---

@@ -473,7 +473,21 @@ export async function installPlugin(
       console.log(styleText("cyan", `→`), `Linking ${spec.name} from ${spec.repo}...`)
     }
 
-    fs.symlinkSync(spec.repo, pluginDir, "dir")
+    // Windows 上 "dir" 类型的软链需要管理员权限，改用 junction；两者都不用提权。
+    // 万一还是失败（比如网络盘），退化成复制一份，并明确警告副本不会跟随源目录更新。
+    const linkType = process.platform === "win32" ? "junction" : "dir"
+    try {
+      fs.symlinkSync(spec.repo, pluginDir, linkType)
+    } catch (err) {
+      console.warn(
+        styleText(
+          "yellow",
+          `! 无法创建指向 ${spec.repo} 的链接（${(err as Error).message}），改为复制一份。` +
+            `\n  注意：之后修改该插件源码不会自动生效，需要 rm -rf .quartz/plugins/${spec.name} 后重新构建。`,
+        ),
+      )
+      fs.cpSync(spec.repo, pluginDir, { recursive: true })
+    }
 
     if (options.verbose) {
       console.log(styleText("green", `✓`), `Linked ${spec.name}`)

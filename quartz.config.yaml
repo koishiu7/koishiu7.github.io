@@ -93,6 +93,16 @@ plugins:
         - filesystem
     order: 10
 
+  # 每页顶部的维护状态徽标（seed / growing / stable / stale）
+  # 本地插件，源码在 plugins/note-polish —— 笔记 frontmatter 写一行 status: 即可
+  - source: "./plugins/note-polish"
+    enabled: true
+    options:
+      showUnknown: true
+      overviewHref: "/状态"
+      dropDuplicateH1: true
+    order: 12
+
   - source: "@quartz-community/syntax-highlighting"
     enabled: true
     options:

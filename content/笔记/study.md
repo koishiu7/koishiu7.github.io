@@ -1,5 +1,6 @@
 ---
 title: 收入结构：体制内外的量化对比
+status: growing
 ---
 
 研究表：

@@ -23,6 +23,8 @@ import fs from "node:fs"
 import path from "node:path"
 import process from "node:process"
 import os from "node:os"
+
+import { existingStatus, statusLine } from "./lib/status.mjs"
 import crypto from "node:crypto"
 import { spawnSync } from "node:child_process"
 
@@ -188,7 +190,7 @@ function convertWithOnlyOffice(bin, src, dst) {
 
 // ---------------------------------------------------------------- 预览页
 
-function previewMarkdown(title, slug) {
+function previewMarkdown(title, slug, status) {
   const url = `/assets/papers/${slug}.pdf`
   // 「全屏放大」用内联 onclick，而不是 <script>：
   // SPA 切换页面时插入的 <script> 不会执行，内联事件处理器却能正常工作。
@@ -197,7 +199,7 @@ title: ${title}
 description: 论文 · 在线预览与下载
 tags:
   - 论文
-paperFile: ${url}
+${statusLine(status)}paperFile: ${url}
 generated: true
 ---
 
@@ -216,13 +218,13 @@ generated: true
 }
 
 /** PDF 还没好时先占位，避免这条笔记在站点上凭空消失 */
-function pendingMarkdown(title) {
+function pendingMarkdown(title, status) {
   return `---
 title: ${title}
 description: 论文 · 云端转换中
 tags:
   - 论文
-generated: true
+${statusLine(status)}generated: true
 ---
 
 <div class="pdf-pending">
@@ -329,7 +331,7 @@ function main() {
           !fs.existsSync(pendingPath) ||
           fs.readFileSync(pendingPath, "utf-8").includes("generated: true")
         if (!DRY && isGenerated) {
-          fs.writeFileSync(pendingPath, pendingMarkdown(base), "utf-8")
+          fs.writeFileSync(pendingPath, pendingMarkdown(base, existingStatus(pendingPath)), "utf-8")
           stats.pages++
         }
         continue
@@ -369,7 +371,7 @@ function main() {
         continue
       }
     }
-    if (!DRY) fs.writeFileSync(mdPath, previewMarkdown(base, slug), "utf-8")
+    if (!DRY) fs.writeFileSync(mdPath, previewMarkdown(base, slug, existingStatus(mdPath)), "utf-8")
     stats.pages++
   }
 

@@ -4,6 +4,7 @@ description: 原文·译文·注释
 tags:
   - 笔记
   - LaTeX
+status: stable
 generated: true
 ---
 

@@ -11,6 +11,8 @@ import {
   sidebarToggleAfterDOMLoaded,
   sidebarToggleBeforeDOMLoaded,
 } from "../../components/scripts/sidebarToggle"
+// 本站自定义：表格滚动容器 + 手机端目录
+import { siteEnhanceAfterDOMLoaded } from "../../components/scripts/siteEnhance"
 import baseStyles from "../../styles/base.scss"
 import customStyles from "../../styles/custom.scss"
 import popoverStyle from "../../components/styles/popover.scss"
@@ -266,6 +268,7 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
   // 两侧边栏折叠开关（本站自定义，样式见 quartz/styles/custom.scss 同名段落）
   componentResources.beforeDOMLoaded.push(sidebarToggleBeforeDOMLoaded)
   componentResources.afterDOMLoaded.push(sidebarToggleAfterDOMLoaded)
+  componentResources.afterDOMLoaded.push(siteEnhanceAfterDOMLoaded)
 
   if (cfg.enableSPA) {
     componentResources.afterDOMLoaded.push(spaRouterScript)

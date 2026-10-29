@@ -22,6 +22,8 @@ import fs from "node:fs"
 import path from "node:path"
 import process from "node:process"
 
+import { existingStatus, statusLine } from "./lib/status.mjs"
+
 const DRY = process.argv.includes("--dry")
 const CONTENT_DIR = path.resolve(process.env.QUARTZ_CONTENT || "content")
 const SKIP_DIRS = new Set(["assets", ".obsidian", ".trash", ".git", "node_modules", "private"])
@@ -230,14 +232,14 @@ function convert(body) {
   return blocks.join("\n\n")
 }
 
-function pageMarkdown(title, description, sourceUrl, body) {
+function pageMarkdown(title, description, sourceUrl, body, status) {
   return `---
 title: ${title}
 description: ${description}
 tags:
   - 笔记
   - LaTeX
-generated: true
+${statusLine(status)}generated: true
 ---
 
 <p class="tex-source"><a class="pdf-btn" href="${sourceUrl}" download data-router-ignore>下载 LaTeX 源码</a></p>
@@ -308,7 +310,11 @@ function main() {
 
     const relSource = path.relative(CONTENT_DIR, file).split(path.sep).join("/")
     if (!DRY) {
-      fs.writeFileSync(mdPath, pageMarkdown(title, description, `/${relSource}`, md), "utf-8")
+      fs.writeFileSync(
+        mdPath,
+        pageMarkdown(title, description, `/${relSource}`, md, existingStatus(mdPath)),
+        "utf-8",
+      )
     }
     stats.pages++
     console.log(`  · ${base}.tex → ${title}`)

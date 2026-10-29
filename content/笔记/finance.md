@@ -1,5 +1,6 @@
 ---
 title: 金融学基础
+status: seed
 ---
 
 

@@ -64,6 +64,10 @@ jobs:
         # .tex 原样发布（可下载），同时生成一份可阅读、可检索的同名页面
         run: node tools/build-tex.mjs
 
+      - name: 生成笔记状态总览
+        # 扫描 frontmatter 的 status，生成 /状态 页面（不提交，每次构建重写）
+        run: node tools/build-status.mjs
+
       - name: 构建站点
         run: npx quartz build
 
