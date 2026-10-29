@@ -63,12 +63,16 @@ Obsidian 写作 + Quartz 发布的个人知识 Wiki。风格参考 [ArchWiki](ht
 笔记写在 `content/` 目录里。Obsidian 直接把 **`content/` 文件夹作为 Vault 打开**即可。
 
 ```bash
-npm run sync      # 可选：从外部 Vault 同步笔记进来（见下）
+npm run sync      # 整理 content/ 里的图片（原地，不碰你的笔记）
 npm run preview   # 本地预览 http://localhost:8080
 git add -A && git commit -m "notes: ..." && git push
 ```
 
-推送后 GitHub Actions 自动完成：图片归类 → 构建 → 发布。约 1–2 分钟后上线。
+推送后 GitHub Actions 自动完成：图片归类 → 论文/LaTeX 处理 → 构建 → 发布。约 1–2 分钟后上线。
+
+> `npm run sync` 默认是 **原地整理**（`--inplace`），只在 `content/` 内部搬图片、改链接。
+> 只有当你确实想从**另一个** Vault 拉笔记过来时，才用 `npm run sync:vault` ——
+> 它会用源 Vault 的内容**覆盖** `content/` 里的同名笔记。
 
 ### 全自动（推荐）
 
@@ -77,15 +81,18 @@ git add -A && git commit -m "notes: ..." && git push
 
 ### 如果你把笔记放在别处
 
-脚本支持从任意 Vault 同步进 `content/`，原文件不会被改动：
+脚本支持从任意 Vault 单向拉取到 `content/`，原文件不会被改动（但 `content/` 里的同名笔记会被覆盖）：
 
 ```bash
 # 指定源目录
 node tools/sync-vault.mjs "D:/path/to/your/vault"
 
-# 或设成环境变量，之后直接 npm run sync
+# 或设成环境变量，之后用 npm run sync:vault
 export OBSIDIAN_VAULT="D:/path/to/your/vault"
 ```
+
+⚠️ 单向覆盖是有代价的：如果 `content/` 里的笔记比源 Vault 新，会被旧版本盖掉。
+只想整理图片就用 `npm run sync`。
 
 ---
 
@@ -144,6 +151,42 @@ git add content/assets/papers && git commit -m "论文 PDF（Word 版）" && git
 > 云端和本地谁产出的 PDF 都能用，判断依据只有一条：
 > `content/assets/papers/manifest.json` 里记着「这份 docx 的哪一版已经转过了」。
 > 所以 docx 一改，下次推送就会自动重转。
+
+### 论文页面上有什么
+
+每份论文的页面顶部有三个动作：
+
+| 按钮 | 作用 |
+| --- | --- |
+| 全屏放大 | 阅读器铺满整个屏幕，Esc 退出（适合仔细读公式） |
+| 新标签页打开 | 在浏览器原生 PDF 阅读器里打开，可缩放、可发给别人 |
+| 下载 PDF | 直接存到本地 |
+
+---
+
+## LaTeX 笔记（.tex）
+
+把 `.tex` 放进 `content/` 任意目录，构建时会做两件事：
+
+1. **原样发布**：`/笔记/xxx.tex` 可以直接下载，方便拿去 Overleaf 编译
+2. **生成可读页面**：同名 `.md` 里，章节变标题、`\eng{}` / `\cn{}` / `\cmt{}` 变成
+   「原文 / 译文 / 注释」三段引用块，于是整篇内容都能被站内搜索到
+
+转换靠 `tools/build-tex.mjs`，认得这几个宏：
+
+| LaTeX | 页面上的样子 |
+| --- | --- |
+| `\section{}` / `\subsection{}` | `##` / `###` 标题（会进右侧目录） |
+| `\eng{...}` | 引用块「原文」 |
+| `\cn{...}` | 引用块「译文」 |
+| `\cmt{...}` | 引用块「注释」 |
+| `\textbf{}` / `\emph{}` | 加粗 / 斜体 |
+| `\%`、`\&`、`---`、`` ``…'' `` | 对应标点 |
+
+用的是自己的宏就改 `build-tex.mjs` 顶部的 `MACRO_LABEL`，加一行即可。
+
+> 生成的 `.md` 带 `generated: true`，每次构建都会重写。
+> 想自己接管某一篇：把那个 `.md` 里的 `generated: true` 删掉，脚本就不会再动它。
 
 ---
 
