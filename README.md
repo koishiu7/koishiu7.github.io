@@ -18,6 +18,43 @@ Obsidian 写作 + Quartz 发布的个人知识 Wiki。风格参考 [ArchWiki](ht
 
 ---
 
+## 只维护一个仓库
+
+`content/` 就是 Obsidian Vault。你在这个文件夹里写笔记，提交即发布。
+不需要第二个笔记仓库，本地也不需要装 Node。
+
+### 换一台电脑要配什么
+
+只要 git，不要别的：
+
+1. 装 git 和 Obsidian
+2. `git clone https://github.com/koishiu7/koishiu7.github.io.git`
+3. Obsidian → 打开文件夹 → 选 `content/`
+4. 装 Obsidian Git 插件，开 `Auto commit-and-sync`
+
+图片归类、构建、部署全跑在 GitHub Actions 上，本地一个依赖都不用装。
+只有想本地预览时才需要 Node（可选）：`npm install && npm run preview`。
+
+---
+
+## 那个 Liquid 报错是什么
+
+如果 Actions 里看到 `pages build and deployment` 失败，报
+`Liquid syntax error ... in docs/plugins/CustomOgImages.md`，不用担心，**它和你的站点无关**。
+
+那是 GitHub 内置的 Jekyll 构建在扫描仓库里的所有 Markdown，撞上了 Quartz 官方文档里的 `{{ }}` 语法。
+你的站点是 GitHub Actions 部署的，不受影响。
+
+要彻底关掉它：
+
+**Settings → Pages → Build and deployment → Source → 选 GitHub Actions**
+
+切换后这个 workflow 就不会再触发。
+
+> ⚠️ 别为了消掉这个报错去删 `docs/` 目录。Jekyll 一旦构建成功，会把 Jekyll 版站点覆盖掉你 Actions 部署的 Quartz 站点 —— 它现在报错反而是一种保护。
+
+---
+
 ## 日常使用
 
 ### 写作 → 发布
@@ -103,11 +140,13 @@ export OBSIDIAN_VAULT="D:/path/to/your/vault"
 
 配置已经写好，但 **`categoryId` 还是占位符，需要你补上**：
 
-1. 打开仓库 **Settings → General → Features**，勾选 **Discussions**
-2. 进入 **Discussions** 标签页 → 新建一个分类，名字叫 `Comments`（类型选 Announcements 或 General）
-3. 打开 <https://giscus.app/zh-CN>，在「仓库」填 `koishiu7/koishiu7.github.io`
-4. 页面下方会给出 `data-repo-id` 和 `data-category-id` 两串值
-5. 把它们填进 `quartz.config.yaml` 的 comments 插件：
+1. 打开 <https://github.com/apps/giscus> → **Install** → 选择 `koishiu7/koishiu7.github.io` 仓库
+   （不装这一步会报 `giscus is not installed on this repository`）
+2. 仓库 **Settings → General → Features**，勾选 **Discussions**
+3. 进入 **Discussions** 标签页 → 新建一个分类，名字叫 `Comments`（类型选 Announcements 或 General）
+4. 打开 <https://giscus.app/zh-CN>，在「仓库」填 `koishiu7/koishiu7.github.io`
+5. 页面下方会给出 `data-repo-id` 和 `data-category-id` 两串值
+6. 把它们填进 `quartz.config.yaml` 的 comments 插件：
 
 ```yaml
 options:
@@ -117,7 +156,7 @@ options:
   categoryId: "在这里填 data-category-id"
 ```
 
-6. 提交推送，评论区即可正常工作
+7. 提交推送，评论区即可正常工作
 
 > 没配置之前，页面底部会一直显示「正在加载评论…」，不影响正文阅读。
 
