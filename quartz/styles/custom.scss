@@ -253,8 +253,46 @@ a.tag-link {
 
 // ---------------------------------------------- 论文 PDF 预览
 
-.pdf-embed {
+.pdf-viewer {
   margin: 1.2rem 0;
+}
+
+.pdf-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+// 按钮与链接长得一样：白底、细边框、蓝色文字，跟 ArchWiki 的朴素风格一致
+.pdf-btn {
+  appearance: none;
+  display: inline-block;
+  padding: 0.22rem 0.7rem;
+  border: 1px solid var(--aw-border);
+  border-radius: 2px;
+  background: #fff;
+  color: var(--aw-link);
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--aw-surface);
+    border-color: var(--aw-link);
+    color: var(--aw-link);
+    text-decoration: none;
+  }
+
+  &:active {
+    background: var(--aw-border-light);
+  }
+}
+
+.pdf-embed {
   border: 1px solid var(--aw-border-light);
   background: var(--aw-surface);
 
@@ -265,15 +303,24 @@ a.tag-link {
     min-height: 560px;
     border: 0;
   }
+
+  // 全屏时铺满屏幕，不留内嵌时的留白
+  &:fullscreen,
+  &:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+    background: #fff;
+
+    iframe {
+      height: 100vh;
+    }
+  }
 }
 
-.pdf-download {
-  margin-top: 0.55rem;
-  font-size: 0.9rem;
-
-  a {
-    color: var(--aw-link);
-  }
+// LaTeX 笔记：源码下载
+.tex-source {
+  margin: 0 0 1.1rem;
 }
 
 // docx 正在云端转换时的占位提示

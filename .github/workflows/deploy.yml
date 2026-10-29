@@ -60,6 +60,10 @@ jobs:
         # docx 的转换由 convert-papers.yml 在另一个工作流里异步完成。
         run: node tools/build-papers.mjs --no-convert
 
+      - name: LaTeX 笔记处理
+        # .tex 原样发布（可下载），同时生成一份可阅读、可检索的同名页面
+        run: node tools/build-tex.mjs
+
       - name: 构建站点
         run: npx quartz build
 

@@ -190,6 +190,8 @@ function convertWithOnlyOffice(bin, src, dst) {
 
 function previewMarkdown(title, slug) {
   const url = `/assets/papers/${slug}.pdf`
+  // 「全屏放大」用内联 onclick，而不是 <script>：
+  // SPA 切换页面时插入的 <script> 不会执行，内联事件处理器却能正常工作。
   return `---
 title: ${title}
 description: 论文 · 在线预览与下载
@@ -199,11 +201,17 @@ paperFile: ${url}
 generated: true
 ---
 
-<div class="pdf-embed">
-  <iframe src="${url}" title="${title}" loading="lazy"></iframe>
-</div>
+<div class="pdf-viewer">
+  <div class="pdf-toolbar">
+    <button type="button" class="pdf-btn" onclick="try{var t=this.closest('.pdf-viewer').querySelector('.pdf-embed');(t.requestFullscreen||t.webkitRequestFullscreen).call(t)}catch(e){}">全屏放大</button>
+    <a class="pdf-btn" href="${url}" target="_blank" rel="noopener" data-router-ignore>新标签页打开</a>
+    <a class="pdf-btn" href="${url}" download data-router-ignore>下载 PDF</a>
+  </div>
 
-<p class="pdf-download"><a href="${url}">下载 PDF</a></p>
+  <div class="pdf-embed">
+    <iframe src="${url}" title="${title}" loading="lazy"></iframe>
+  </div>
+</div>
 `
 }
 

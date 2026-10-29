@@ -1,0 +1,262 @@
+---
+title: Adverbialism, Qualia Theories, and the Many-Property Problem
+description: 原文·译文·注释
+tags:
+  - 笔记
+  - LaTeX
+generated: true
+---
+
+<p class="tex-source"><a class="pdf-btn" href="/笔记/perception.tex" download data-router-ignore>下载 LaTeX 源码</a></p>
+
+## Barnes and Robinson: “Appears Pink” Does Not Entail a Pink Object
+
+> **原文**　As a philosophy professor, Barnes argues that this principle is based on a fallacy: “That something appears pink to me is not a valid reason for concluding either that that thing is pink or that there is some other thing which is pink” (1965: 153). As Robinson also notes when discussing the arguments in favor of mental objects, our language is stocked with idioms, such as “seems”, “appears”, and “looks”, which we can confidently use to assert for instance that a non-pink elephant seems pink (1994: 40).
+
+> **译文**　作为一名哲学教授，巴恩斯（Barnes）论证说，这一原则建立在一个谬误之上：“某物对我显现为粉色，并不是一个有效理由，据此既不能断定该物是粉色的，也不能断定存在另一个粉色的东西”（1965: 153）。正如罗宾逊（Robinson）在讨论支持心理对象的论证时也指出的那样，我们的语言中充满了诸如“似乎”“显现”“看起来”这样的习语；我们可以自信地使用它们来断言，例如，一头非粉色的大象看起来是粉色的（1994: 40）。
+
+> **注释**　核心区分是“显现”与“实在”。从“某物对我显现为粉色”不能推出：(i) 该物本身是粉色的；(ii) 存在另一个粉色的东西（如感觉材料或心理对象）。日常语言中的 seems/appears/looks 恰恰表明：我们可以描述经验的现象特征，而不承诺一个粉色的心理实体。这为副词主义把“看见红”分析为“以红色方式感知”提供了语言直觉上的支持。
+
+## Surface Structure and Adverbial Translation
+
+> **原文**　However, the following sentences have a similar surface structure:
+> (3) Sara gave an energetic performance.
+> (4) Ali wore a broad smile.
+> Sentences (3) and (4) also seem to relate subjects to objects in the very same way. Given this, we might think that if sentences such as (3) and (4) are true, then we must also be committed to the existence of certain strange objects – performances and smiles – which can both be adjectivally modified and to which we can bear relationships of giving and wearing.
+> However, we don’t have to see things in this way. Although (3) and (4) have the subject : relationship : adjective : noun form, they can both be translated into a subject : verb : adverb form whilst retaining their sense.
+
+> **译文**　然而，下面这些句子具有相似的表面结构：
+> （3）Sara gave an energetic performance.（萨拉作了一场充满活力的表演。）
+> （4）Ali wore a broad smile.（阿里带着灿烂的微笑。）
+> 句子（3）和（4）看起来也以完全相同的方式把主语与对象联系起来。既然如此，我们可能会想：如果（3）和（4）这样的句子是真的，那么我们是不是也必须承诺某些奇怪对象的存在——即“表演”和“微笑”——它们既能被形容词修饰，又能成为我们“给予”和“佩戴”关系的对象。
+> 然而，我们不必这样看问题。尽管（3）和（4）具有“主语：关系：形容词：名词”的形式，它们都可以被翻译成“主语：动词：副词”的形式，同时保留其意义。
+
+> **注释**　这里的关键是“表面语法结构不是本体论的可靠指南”。(3)(4) 表面上像“主体—关系—对象”，但可以被改写为“主体—动词—副词”。这就是副词化翻译策略的出发点：把看似对象化的名词（performance, smile）还原为活动/方式，从而避免承诺“表演”“微笑”作为奇怪实体。
+
+> **原文**　This translation has three stages. First, we map across the subject. Then we convert the noun from the original sentence into a verb (thus, in the case of (3) and (4), “performance” becomes “performed” and “smile” becomes “smiled”). Finally, we convert the adjective that modified the noun into an adverb that modifies the verb, thus “energetic” translates as “energetically” and “broad” as “broadly”. For (3) and (4), this yields the following translated sentences:
+> (3trans) Sara performed energetically.
+> (4trans) Ali smiled broadly.
+
+> **译文**　这种翻译有三个阶段。首先，把主语对应过来。然后，把原句中的名词转换成动词（因此在（3）和（4）中，“performance”变成“performed”，“smile”变成“smiled”）。最后，把修饰名词的形容词转换成修饰动词的副词，于是“energetic”译为“energetically”，“broad”译为“broadly”。对于（3）和（4），这产生如下翻译句：
+> （3trans）Sara performed energetically.（萨拉充满活力地表演。）
+> （4trans）Ali smiled broadly.（阿里灿烂地微笑。）
+
+> **注释**　三个阶段可以概括为：主语映射 → 名词动词化 → 形容词副词化。改写后不再出现“表演”“微笑”作为对象，而是“以某种方式表演/微笑”。这正是副词主义把“感知一个红对象”改写为“以红色方式感知”的模板。
+
+## The Limits of Adverbial Translation
+
+> **原文**　(1trans) Sofia bagged heavily.
+> (2trans) Santiago hatted broadly.
+> Unlike the previous case, (1trans) and (2trans) are not sensible sentences of English and therefore could not mean the same as the coherent sentences (1) and (2).
+> The moral of the story is that, whilst some sentences that have the subject : relationship : adjective : noun surface form can be translated into subject : verb : adverb form without losing their sense or changing their meaning, others such as (1) and (2) cannot.
+
+> **译文**　（1trans）Sofia bagged heavily.（索菲亚沉重地装袋。）
+> （2trans）Santiago hatted broadly.（圣地亚哥宽泛地戴帽。）
+> 与前面那种情况不同，（1trans）和（2trans）并不是可理解的英语句子，因此不可能与连贯的句子（1）和（2）意义相同。
+> 这个故事的寓意是：有些具有“主语：关系：形容词：名词”表面形式的句子，可以翻译成“主语：动词：副词”的形式而不丢失其意义或改变其含义；但另一些句子，比如（1）和（2），则不能这样翻译。
+
+> **注释**　这是给副词化翻译“划边界”。performance/smile 可以被理解为活动或方式，所以能副词化；bag/hat 是具体物品，名词动词化后意义改变（bag 作动词是“装袋”，hat 作动词是“戴帽/给……戴帽”），副词修饰也不能表达原句“给了一个重包/戴了一顶宽帽子”。因此，副词化策略不是万能的：表面结构相似不等于深层结构相同。
+
+## The Metaphysics of Adverbialism: Event-Based vs. Subject-Predicate
+
+> **原文**　In the main text, I outline an events-based metaphysics of adverbialism. This takes an adverbial statement, such as “Mia senses redly”, as committing us to the existence of an event whose particular nature as an event is described by the adverbial modifiers (Davidson 1980; Chirimuuta 2015: 140). This analysis reads “Mia senses” as committing us to the existence of an event of sensing of which Mia is the subject and “redly” as ascribing the property of being redly (whatever that may be) to the event. An alternative metaphysics, however, is outlined by Michael Tye, who suggests we treat “Mia senses redly” as a subject-predicate statement. According to this analysis, “Mia” refers to the subject and “senses redly” is a predicate, which functions to ascribe the property to the subject, Mia, of sensing redly (Tye 1984).
+
+> **译文**　在正文中，我概述了一种基于事件的副词主义形而上学。这种立场把诸如“Mia senses redly”（米娅以红色地方式感知）这样的副词性陈述，理解为承诺了一个事件的存在，而该事件作为事件的特定性质由副词修饰语来描述（Davidson 1980; Chirimuuta 2015: 140）。这种分析把“Mia senses”读作承诺存在一个感知事件，米娅是该事件的主体；并把“redly”读作把“以红色地方式”这一性质（无论它究竟是什么）归于该事件。然而，迈克尔·泰（Michael Tye）概述了另一种形而上学：他建议我们把“Mia senses redly”当作一个主谓陈述来处理。按照这种分析，“Mia”指称主体，而“senses redly”是一个谓词，其作用是把“以红色地方式感知”这一性质归于主体米娅（Tye 1984）。
+
+> **注释**　副词主义的语义学（把对象语言改写成副词形式）可以与不同形而上学搭配。事件论版本：承诺一个感知事件，副词修饰事件。主谓版本：把“senses redly”整体作为谓词，把“以红色方式感知”直接归于主体，不必然承诺事件。两者都试图避免“红色感觉材料/心理对象”，但对“redly”修饰什么、承诺何种实体给出不同解释。
+
+## Defending Adverbialism: Heat Haze and the Core Idea
+
+> **原文**　Adverbialism, as a theory of perception, is often sorely misunderstood. There is something in the translation argument above that can make the theory look like a verbal dodge, not a substantive theory of perception at all. As Cornman, himself a defender of adverbialism, says, “merely devising an artificial terminology in which the problems [faced by sense data] do not arise neither solves nor dissolves the problems” (1971: 188). But as we shall see, adverbialism offers much more than an artificial terminology.
+
+> **译文**　副词主义作为一种知觉理论，常常遭到严重误解。上文那个翻译论证中有某种东西，会使这个理论看起来像是一种言辞搪塞，而不是一种实质性的知觉理论。正如 Cornman 本人（他本人也是副词主义的捍卫者）所说：“仅仅设计一套人工术语，使得[感觉材料所面临的]问题在其中不出现，既不解决问题，也不消解问题”（1971: 188）。但正如我们将要看到的，副词主义所提供的远不止一套人工术语。
+
+> **注释**　“言辞搪塞”的批评：翻译论证只是把“我看见红对象”改写成“我以红色方式感知”，看起来像换说法。Cornman 的引文承认：光靠人工术语不能解决问题。接下来作者要用“热霾看树”的例子说明副词主义有实质内容。
+
+> **原文**　In getting away from the sense of artificiality, an important thing to note is that, although the adverbs that are appealed to in these particular translations are nonstandard, the underlying idea is actually quite familiar. Imagine that instead of seeing a red triangle, you see a tree through heat haze. In such a case, we do not see a blurry tree – the tree doesn’t become blurry – rather we see the tree blurrily. The object we see doesn’t change – the way we see the object changes.
+
+> **译文**　在摆脱“人为造作”这种感觉时，有一点很重要：尽管这些特定翻译中所诉诸的副词是非标准的，但其背后的观念其实相当熟悉。设想你不是看到一个红色三角形，而是透过热霾看到一棵树。在这种情况下，我们并不是看到一个模糊的树——树本身并没有变模糊——而是我们模糊地看见那棵树。我们所看到的对象没有改变，改变的是我们看见对象的方式。
+
+> **注释**　热霾例子说明副词主义并不完全反直觉：对象的性质没变，感知的方式变了。副词主义把这个模式推广到颜色经验：看见红物，不是感知一个红色心理对象，而是以红色方式感知那个物质对象。
+
+> **原文**　In many ways, this observation is the core of an adverbialist theory of perception. For example, when I see a red object, according to the adverbialist, I don’t sense a red mental entity, but rather sense the material entity in a particular way: redly. Despite rejecting the Phenomenal Principle in this way, adverbialists do nonetheless typically agree with sense datum theorists (and intentionalists) in endorsing the Common Factor Principle, which claims that:
+> (C) Phenomenologically indiscriminable veridical perceptions, hallucinations and illusions have an underlying mental state in common.
+
+> **译文**　在许多方面，这一观察正是副词主义知觉理论的核心。例如，当我看见一个红色对象时，按照副词主义者的说法，我并不是感知到一个红色的心理实体，而是以某种特定方式感知那个物质实体：以红色地方式感知。尽管以这种方式拒绝了现象原则，副词主义者通常仍然与感觉材料理论家（以及意向主义者）一致，赞同共同因素原则，该原则主张：
+> （C）现象上不可分辨的真实知觉、幻觉和错觉具有一种共同的内在心理状态。
+
+> **注释**　共同因素原则（C）：真实知觉、错觉和幻觉在现象上可能无法区分，因此共享某种内在心理状态。感觉材料理论家用“共同的感觉材料”解释；副词主义者用“共同的感知方式”解释。这是副词主义与感觉材料理论的重要共同点，也是它要解释错觉/幻觉的出发点。
+
+## Illusion, Hallucination, and the Rejection of the Phenomenal Principle
+
+> **原文**　If a subject sees a stick half-immersed in water, then according to the adverbialist, they don’t sense a bent stick, but rather sense a straight stick bently. If I see a white object under red light and thereby suffer from the illusion that I see something red, I once again sense redly; but in this case, a white object is sensed redly. And finally, a hallucination of a red object will also involve my sensing redly; it is just that in this case, nothing is thereby sensed. I still sense in a certain way – redly – but no object is thereby sensed.
+
+> **译文**　如果一个主体看见一根半浸在水中的棍子，那么按照副词主义者的说法，他们并不是感知到一根弯曲的棍子，而是以弯曲地方式感知一根直的棍子。如果我看见一个白色对象处于红光之下，并因此遭受“我看见某个红色东西”的错觉，我再一次以红色地方式感知；但在这个情况中，被以红色地方式感知的是一个白色对象。最后，对一个红色对象的幻觉也会涉及我以红色地方式感知；只不过在这个情况中，并没有任何东西被感知到。我仍然以某种方式感知——以红色地方式——但没有任何对象由此被感知到。
+
+> **注释**　三个例子：(i) 水中直棍——以弯曲方式感知直棍；(ii) 红光下白物——以红色方式感知白物；(iii) 红色幻觉——以红色方式感知，但无对象被感知。关键是：感知方式可以独立于感知对象而存在；错觉中对象性质与方式不一致，幻觉中甚至没有对象，但方式仍在。
+
+> **原文**　According to adverbialism then, what it is like for me is a matter, not of the object sensed (as there may not even be an object) but rather of the way I sense. For this reason, adverbialism embodies a rejection of the Phenomenal Principle. That principle says that:
+> (P) If there sensibly appears to a subject to be something which possesses a particular sensible quality then there is something of which the subject is aware which does possess that quality.
+
+> **译文**　因此，按照副词主义的说法，对我来说“它像什么”并不取决于被感知的对象（因为甚至可能根本没有对象），而取决于我感知的方式。由于这个原因，副词主义体现了对现象原则的拒绝。该原则说：
+> （P）如果对某个主体来说，感性地显现为有某物具有某种特定感性性质，那么该主体所意识到的东西中就有某物具有该性质。
+
+> **注释**　现象原则（P）：只要某物显现为具有某种感性性质，就存在一个具有该性质的对象被主体意识到。副词主义用错觉和幻觉反驳它：错觉中显现为红，但被意识到的对象是白的；幻觉中显现为红，但根本没有被意识到的对象。所以从“显现为红”不能推出“存在一个红对象”。
+
+> **原文**　In both the illusory and hallucinatory cases just described, we have seen that there can sensibly appear to a subject to be something which possesses the sensible quality of redness without its being the case that there is something of which the subject is aware which possesses that quality. In the case of illusion, the only object of which the subject is aware is white, not red, and in the case of hallucination, there is no object of which the subject is aware at all.
+
+> **译文**　在刚才描述的错觉和幻觉两种情况中，我们已经看到：对某个主体来说，可以感性地显现为有某物具有红色的感性性质，而并不存在该主体所意识到的、具有该性质的某物。在错觉情况中，主体所意识到的唯一对象是白色的，而不是红色的；在幻觉情况中，主体所意识到的对象根本不存在。
+
+> **注释**　这是对现象原则的直接反例：显现为红 ≠ 存在被意识到的红对象。副词主义因此把“它像什么”归于“感知方式”，而不是“被感知对象”。这也为后面“经验如何匹配世界”的困难埋下伏笔。
+
+## The Analysis of Visual Experience and the Matching Problem
+
+> **原文**　A subject S has a visual experience as of a property F, if and only if:
+> • S senses in a particular way (F-ly).
+> As with the previous theories, this is an analysis of the neutral category of visual experience. For such an episode of sensing to qualify as a perception of Fness, other criteria will need to be met. The issues the adverbialist faces here are similar to those faced by both the sense datum theorist and the intentionalist, save for an additional difficulty: where the sense datum theorist can explain what it is for an experience to “match” the world in terms of resemblance, and the intentionalist can explain this in terms of the experience’s content being true, the adverbialist doesn’t have such a straightforward option available. So in addition to needing a way to distinguish true veridical perceptions from hallucinations that merely happen to match the world, the adverbialist also needs an account of what it is for an experience to match the world in the first place.
+
+> **译文**　一个主体 S 具有关于属性 F 的视觉经验，当且仅当：
+> • S 以某种特定方式感知（以 F-ly 的方式感知）。
+> 与前述理论一样，这是对“视觉经验”这一中性范畴的分析。要使这样一段感知活动成为对 F 性的知觉，还需要满足其他标准。副词主义者在这里面临的问题，与感觉材料理论家和意向主义者所面临的问题相似，但还有一个额外困难：感觉材料理论家可以用“相似性”来解释经验何时“匹配”世界，意向主义者可以用经验的内容为真来解释这一点，而副词主义者却没有这样直接可用的选项。因此，副词主义者除了需要一种方式来区分真实的知觉与仅仅碰巧匹配世界的幻觉之外，还需要首先说明：经验“匹配”世界究竟是怎么回事。
+
+> **注释**　副词主义的基本公式：S 有关于 F 的视觉经验 ⇔ S 以 F-ly 方式感知。这只是“中性范畴”，不区分真实知觉、错觉、幻觉。要成为“对 F 的知觉”，还需额外条件。额外困难：感觉材料理论用“相似性”解释匹配，意向主义用“内容为真”解释匹配，副词主义只有“方式”，没有对象结构或内容结构，因此不能直接解释“匹配”。它需要：(i) 区分真实知觉与碰巧匹配的幻觉；(ii) 说明“以 F-ly 方式感知”在什么条件下算作对 F 的正确感知。
+
+## The Many-Property Problem Introduced
+
+> **原文**　Our statements about afterimages are not just to the effect that an image is red, or square, or whatever; they are also to the effect that an image is red and square and … [The problem for] the adverbial theory turns on this point that an afterimage has many properties, and will be referred to as the many-property problem. (1975: 129)
+> As this objection turns on the fact that (putative) sense data can have more than one property, this objection has become known as the many property problem.
+
+> **译文**　我们关于后像的陈述，并不只是说一个图像是红的、方的或诸如此类；它们还说一个图像是红的且方的且……［副词理论面临的］问题正取决于这一点：一个后像具有许多属性，而这一点将被称为“多属性问题”。（1975: 129）
+> 由于这一反驳取决于（所谓）感觉材料可以具有不止一个属性这一事实，这个反驳就被称为“多属性问题”。
+
+> **注释**　后像不只一个属性：红、方、模糊/清晰、亮度、位置等。多属性问题的核心不是“属性多”，而是多个属性如何绑定到同一个后像/同一个经验上。感觉材料理论可以说“有一个感觉材料，它既红又方”；意向主义可以说“经验的内容是：某物既红又方”。副词主义若只说“以红色方式感知”和“以方形方式感知”，就需要说明这两个方式如何属于同一个经验。
+
+> **原文**　Let us imagine then that we are looking to provide an adverbial analysis of the following statement: Mia is experiencing a red, square afterimage (Mia is sensing a sense datum which is both red and square). How should we analyze this?
+
+> **译文**　那么，让我们设想我们想对下面这个陈述提供一种副词分析：Mia is experiencing a red, square afterimage（米娅正在经验一个红色且方形的后像；即米娅正在感知一个既红又方的感觉材料）。我们应该如何分析这个陈述呢？
+
+> **注释**　这是多属性问题的标准测试句。接下来三种策略分别尝试回答它：合取式、嵌套/累积式、简单打包式（FG-ly）。
+
+## Strategy 1: Conjunctive Analysis
+
+> **原文**　The most obvious response would simply be to say that to sense a red, square sense datum is to sense redly and squarely. This would give us the following conjunctive principle of analysis:
+> “X senses an F, G, etc. sense datum” is to be analyzed as “X senses F-ly and G-ly and etc.”
+> So, “Mia is experiencing a red, square afterimage” would be analyzed as “Mia is sensing redly and squarely”.
+> This analysis has the advantage of explaining the entailment from “I have a red, square afterimage” to “I have a red afterimage” and “I have a square afterimage”. But it faces the following problem.
+
+> **译文**　最明显的回应或许就是直接说：感知一个红色、方形感觉材料，就是以红色地方式且以方形地方式感知。这会给我们如下合取分析原则：
+> > “X 感知一个 F、G 等的感觉材料”应分析为“X 以 F-ly 方式感知且以 G-ly 方式感知，等等”。
+> 因此，“Mia is experiencing a red, square afterimage”（米娅正在经验一个红色、方形的后像）会被分析为“Mia is sensing redly and squarely”（米娅以红色地方式且以方形地方式感知）。
+> 这种分析有一个优点：它解释了从“我有一个红色、方形后像”推出“我有一个红色后像”和“我有一个方形后像”的蕴涵关系。但它面临如下问题。
+
+> **注释**　合取式优点：保留蕴涵（红方后像 ⇒ 红后像、方后像）。缺点：红和方只是两个并列方式，无法表达它们属于同一个后像。接下来用“红方+绿圆”与“红圆+绿方”的对比说明。
+
+> **原文**　There is an important difference between the following two total afterimage experiences:
+> (1) Simultaneously having a red, square afterimage and a green, round afterimage.
+> (2) Simultaneously having a red, round afterimage and a green, square afterimage.
+> According to the principle of analysis, the adverbial translation of these would be:
+> (1trans) Sensing redly and squarely and greenly and roundly.
+> (2trans) Sensing redly and roundly and greenly and squarely.
+> But these are equivalent. Hence the conjunctive formulation doesn’t seem able to account for the differences between these total experiences.
+
+> **译文**　下面两个总体后像经验之间有一个重要区别：
+> （1）同时拥有一个红色、方形后像和一个绿色、圆形后像。
+> （2）同时拥有一个红色、圆形后像和一个绿色、方形后像。
+> 按照上述分析原则，它们的副词翻译会是：
+> （1trans）Sensing redly and squarely and greenly and roundly.（以红色地、方形地、绿色地、圆形地方式感知。）
+> （2trans）Sensing redly and roundly and greenly and squarely.（以红色地、圆形地、绿色地、方形地方式感知。）
+> 但这两个翻译是等价的。因此，合取式表述似乎无法说明这些总体经验之间的区别。
+
+> **注释**　合取是交换的：redly ∧ squarely ∧ greenly ∧ roundly 与 redly ∧ roundly ∧ greenly ∧ squarely 逻辑等价。但两个总体经验明显不同：(1) 红方属于同一个后像，绿圆属于另一个；(2) 红圆属于同一个，绿方属于另一个。合取式丢失了“属性—后像”的绑定结构。
+
+> **原文**　If you’re not sure about this, consider the following sentences and their putative analyses:
+> (3) Mia has a red, round afterimage and a green, square afterimage.
+> (3trans) Mia senses redly and roundly and greenly and squarely.
+
+> **译文**　如果你对此不确定，可以考虑下面这些句子及其所谓的分析：
+> （3）Mia has a red, round afterimage and a green, square afterimage.（米娅有一个红色、圆形的后像和一个绿色、方形的后像。）
+> （3trans）Mia senses redly and roundly and greenly and squarely.（米娅以红色地、圆形地、绿色地、方形地方式感知。）
+
+> **注释**　这个例子再次说明：合取式分析把“红圆”和“绿方”拆成四个并列副词，无法表达“红”与“圆”绑定在同一个后像、“绿”与“方”绑定在另一个后像。多属性问题的实质是绑定/组合结构，而不是属性数量。
+
+## Strategy 2: Nested / Accumulative Analysis
+
+> **原文**　An alternative response to the many property problem is suggested by the ambiguity of the following:
+> (5) Hugo spoke impressively quickly.
+> There is an interpretation of this which reads as conjunctive (Hugo spoke impressively and he did so quickly) – both adverbs modify the verb. However, an alternative interpretation reads impressively as modifying not the verb “spoke” but the adverb “quickly” (it was the speed of Hugo’s speaking which was impressive rather than the speaking itself).
+
+> **译文**　对多属性问题的另一种回应，是由下面这句话的歧义提示出来的：
+> （5）Hugo spoke impressively quickly.（雨果说话令人印象深刻地快。）
+> 这句话有一种读法是合取式的：雨果说话令人印象深刻，而且他说得快——两个副词都修饰动词。然而，另一种读法则把“impressively”理解为不是修饰动词“spoke”，而是修饰副词“quickly”（令人印象深刻的是雨果说话的速度，而不是说话本身）。
+
+> **注释**　自然语言歧义启发：副词不一定是并列修饰同一个动词，也可以一个修饰另一个。这为“嵌套式/累积式”分析提供模板。
+
+> **原文**　The thought would be that our principle of analysis would not have to be conjunctive (where both adverbs modify the verb), but instead accumulative, where each additional adverb modifies the previous one. Thus:
+> “X senses an F, G, etc. sense datum” is to be analyzed as “X senses F-ly G-ly etc.”
+> So when we say that Mia had a red, square afterimage, we should analyze this as follows:
+> Mia sensed redly squarely.
+> But rather than take both adverbs as modifying “sensed” (i.e. as being modes or ways of sensing), we take one adverb to modify the verb and the other to modify the first adverb.
+
+> **译文**　按照这一思路，我们的分析原则不必是合取式的（即两个副词都修饰动词），而可以是累积式的，其中每一个后续副词修饰前一个副词。于是：
+> > “X 感知一个 F、G 等的感觉材料”应分析为“X 以 F-ly G-ly 方式感知，等等”。
+> 所以，当我们说米娅有一个红色、方形的后像时，我们应该这样分析：
+> > Mia sensed redly squarely.（米娅以红色地-方形地方式感知。）
+> 但我们不是把两个副词都理解为修饰“sensed”（即都作为感知的方式或模态），而是让一个副词修饰动词，另一个副词修饰第一个副词。
+
+> **注释**　嵌套式目的：让副词序列有内部结构，以表达“同一个后像既红又方”的绑定关系，而不是简单列一串可交换副词。但接下来会指出两个问题：修饰顺序任意；意义变化导致蕴涵失败。
+
+> **原文**　This leads to the first problem – how are we going to non-arbitrarily decide which adverb modifies the verb and which modifies the first adverb? There seems to be no principled reason to answer this question in a particular way. But even if we do, we run into another problem. Let us say that we decide that squarely modifies sensing and redly modifies squarely. But now, “redly” means something different in “Mia sensed redly” and “Mia sensed redly squarely”, whilst “red” means the same in “Mia had a red afterimage” and “Mia had a red, square afterimage”. This suggests once more that the analyses are not equivalent. Another way of seeing this is to look at the entailments on this approach. “Mia had a red, square afterimage” entails that Mia had a red afterimage, but “Mia sensed redly squarely” does not entail that Mia sensed redly. To see this, note that “Hugo spoke impressively quickly” does not entail that Hugo spoke impressively – the speech might have been impressively quick, but rubbish.
+
+> **译文**　这就导致第一个问题——我们如何非任意地决定哪个副词修饰动词、哪个副词修饰第一个副词？似乎没有原则性的理由以某种特定方式回答这个问题。但即使我们决定了，我们还会遇到另一个问题。假设我们决定“squarely”修饰感知，“redly”修饰“squarely”。但现在，“redly”在“Mia sensed redly”和“Mia sensed redly squarely”中意义不同；而“red”在“Mia had a red afterimage”和“Mia had a red, square afterimage”中意义相同。这再次表明这些分析并不等价。看这种进路上的蕴涵关系，也可以看出这一点。“Mia had a red, square afterimage”蕴涵米娅有一个红色后像；但“Mia sensed redly squarely”并不蕴涵“Mia sensed redly”。要看出这一点，请注意“Hugo spoke impressively quickly”并不蕴涵“Hugo spoke impressively”——说话可能速度令人印象深刻，但内容很糟糕。
+
+> **注释**　两个问题：(i) 任意性：哪个副词修饰哪个没有原则性理由；(ii) 意义变化与蕴涵失败：嵌套后“redly”不再是单纯“以红色方式感知”，所以“redly squarely”不蕴涵“redly”。类比“impressively quickly”不蕴涵“impressively”。因此嵌套式分析不等价于原句，也不能保留“红方后像 ⇒ 红后像”的直观蕴涵。
+
+## Strategy 3: Simple Packed Mode (FG-ly)
+
+> **原文**　The final way Jackson suggests we might try and solve the many property problem is as follows:
+> “X senses an F, G, etc. sense datum” is to be analyzed as “X senses FG(etc.)ly”.
+> Where FG-ly names a simple (fundamental) mode of sensing, not a complex, derivative mode of sensing which is built up out of semantically significant components.
+> So, the claim that “Mia has a red, square afterimage” should instead be analyzed as “Mia sensed red-square-ly”.
+
+> **译文**　杰克逊建议我们尝试解决多属性问题的最后一种方式如下：
+> > “X 感知一个 F、G 等的感觉材料”应分析为“X 以 FG(etc.)-ly 方式感知”。
+> 其中“FG-ly”命名一种简单的（基本的）感知方式，而不是一种由具有语义意义的成分构建起来的复杂、派生的感知方式。
+> 因此，“米娅有一个红色、方形的后像”这一主张，应被分析为“米娅以红色-方形地方式感知”（Mia sensed red-square-ly）。
+
+> **注释**　第三种策略：把“红方”打包成一个原子方式 red-square-ly，不让它由 red + square 组合而成。这样似乎能保留绑定关系：整个 red-square-ly 是统一的方式。但代价是失去组合性和蕴涵。
+
+> **原文**　In response to this, Jackson objects that:
+> On this view, someone who remarks on the common feature in having a red, square afterimage and having a red, round afterimage [must be interpreted as] making a plain mistake—the first is sensing red-square-ly, the second sensing red-round-ly, which are different, and that’s that. But far from being a plain mistake, this remark looks like an evident truth. (1975: 133)
+
+> **译文**　对此，杰克逊提出反对：
+> > 按照这种观点，某人若谈到“有一个红色、方形后像”和“有一个红色、圆形后像”之间的共同特征，［就必须被解释为］犯了一个明显的错误——第一个是以红色-方形地方式感知，第二个是以红色-圆形地方式感知，二者不同，仅此而已。但这远不是一个明显的错误；这个评论看起来像是一个显而易见的真理。（1975: 133）
+
+> **注释**　第一个反对：如果 red-square-ly 和 red-round-ly 都是简单的基本方式，它们之间没有语义共同成分，就不能解释“红方后像”和“红圆后像”共享“红”这一特征，也不能解释“红方后像 ⇒ 红后像”。杰克逊说，这会把显而易见的真理说成明显错误。
+
+> **原文**　A further problem is that afterimages can also have other properties – fuzziness and sharpness for example. But if I have a red, square, fuzzy afterimage, then this must be analyzed as sensing red-square-fuzzy-ly; so, sensing red-square-ly isn’t, as it happens, basic.
+
+> **译文**　还有一个进一步的问题：后像也可以具有其他属性——例如模糊性和清晰性。但如果我有一个红色、方形、模糊的后像，那么这必须被分析为以红色-方形-模糊地方式感知；所以，“以红色-方形地方式感知”实际上并不是基本的。
+
+> **注释**　第二个反对：基本层不基本。后像还有模糊/清晰、亮度、位置等属性；一旦加上“模糊”，red-square-ly 就成了 red-square-fuzzy-ly 的一部分，不再是原子方式。
+
+> **原文**　But Jackson suggests that if the basic level of adverbial analysis has n components (i.e. is sensing F1-F2-…-Fn-ly), he will be able to point out another component at level n + 1 so that the adverbialist “cannot ever give even a single example of a basic mode of sensing, and thus cannot ever complete even one of his adverbial analyses”.
+
+> **译文**　但杰克逊建议说，如果副词分析的基本层次有 n 个成分（即“以 F1-F2-…-Fn-ly 方式感知”），他就能指出第 n+1 层次的另一个成分，以至于副词主义者“永远不能给出哪怕一个基本感知方式的例子，因此也永远不能完成哪怕一个他的副词分析”。
+
+> **注释**　n+1 反驳：无论你列多少个成分作为“基本层”，总能再加一个属性，形成 n+1 层。因此副词主义者永远举不出真正基本的感知方式，也就永远不能完成一个完整的副词分析。三种策略的共同困境：合取式保留蕴涵但丢绑定；嵌套式试图保留结构但任意且意义变化；简单打包式保留绑定但丢组合性和蕴涵，并导致 n+1 无限后退。
+
+## Summary: Why the Many-Property Problem Is Serious
+
+> **原文**　(Summary of the dialectic, not a direct quotation.) The conjunctive analysis preserves entailments but loses the binding of properties to the same afterimage. The nested analysis tries to preserve structure but faces arbitrariness and meaning shift, and fails to preserve entailments. The simple packed-mode analysis preserves binding at the cost of compositionality and entailments, and collapses into an n+1 regress.
+
+> **译文**　（辩证总结，非直接引文。）合取式分析保留了蕴涵，却丢失了属性与同一后像的绑定。嵌套式分析试图保留结构，却面临任意性和意义变化，并且不能保留蕴涵。简单打包方式分析以牺牲组合性和蕴涵为代价保留了绑定，却陷入 n+1 无限后退。
+
+> **注释**　三种策略显示：纯副词主义若拒绝任何承载者/事件/内容结构，就很难同时表达多属性的绑定、共同特征和蕴涵关系。可能的出路包括：(i) 引入事件/状态/经验作为承载者（事件论版本）；(ii) 采用高阶方式逻辑/方式代数；(iii) 接受某种原始的方式修饰关系或方式复合运算。但每种出路都要承担相应的本体论或逻辑成本。
+
+## Comment: Natural-Language Vagueness and First-Order Logic
+
+> **原文**　(Comment.) The ambiguities of natural language—e.g., “Hugo spoke impressively quickly”—can make the many-property problem look like a verbal issue. But the core problem is the binding structure: which properties belong to the same afterimage/experience. First-order logic can clarify this, but it does not solve it for free. If we formalize “Mia senses redly and squarely” as Senses(Mia, redly) ∧ Senses(Mia, squarely), we still lose binding. To preserve binding, we typically introduce an event/state/experience variable: ∃e(Sensing(e) ∧ Agent(Mia,e) ∧ Redly(e) ∧ Squarely(e)). This is already a bearer-based (e.g., event-based) version of adverbialism. Alternatively, one can develop a higher-order logic of modes (e.g., Redly(Squarely)), but then one must explain compositionality, meaning preservation, entailments, and the nature of the primitive modification relation—and avoid an infinite regress by positing some primitive structure.
+
+> **译文**　（评论。）自然语言的歧义——例如“Hugo spoke impressively quickly”——会让人以为多属性问题只是说法问题。但核心问题是绑定结构：哪些属性属于同一个后像/同一个经验。一阶逻辑能澄清这一点，但不能免费解决它。若把“Mia senses redly and squarely”形式化为 Senses(Mia, redly) ∧ Senses(Mia, squarely)，仍然丢失绑定。要保留绑定，通常要引入事件/状态/经验变量：∃e(Sensing(e) ∧ Agent(Mia,e) ∧ Redly(e) ∧ Squarely(e))。这已经是承载者版本（如事件论版本）的副词主义。另一种选择是发展高阶方式逻辑（如 Redly(Squarely)），但此时必须解释组合性、意义保持、蕴涵关系以及原始修饰关系的性质，并通过设定某种原始结构来避免无限倒退。
+
+> **注释**　结论：自然语言的模糊/歧义让问题显得像“说法问题”，但多属性问题的实质是：副词主义若只列一串方式副词，就缺少把多个属性绑定到同一经验/事件的逻辑机制。一阶逻辑是必要的澄清工具，但它不会免费解决本体论问题；一旦用一阶逻辑引入事件/状态/经验变量来保留绑定关系，就已经在采纳承载者版本的副词主义（事件论是其中最自然的一种），并承担相应形而上学承诺。若坚持继续副词化，则需承担高阶方式逻辑和原始修饰关系的成本。

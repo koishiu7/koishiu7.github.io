@@ -237,8 +237,8 @@ function main() {
   const isJunk = (f) => /^(未命名|Untitled)/i.test(path.basename(f))
   const mdFiles = walk(SRC_DIR).filter((f) => MD_RE.test(f) && !isJunk(f))
   // .base / .canvas 直接搬运；论文类附件（docx/pdf/pptx…）也原样带过去，
-  // 交给 build-papers.mjs 转换与生成预览页
-  const EXTRA_RE = /\.(base|canvas|docx|doc|pdf|pptx|ppt|xlsx|zip)$/i
+  // 交给 build-papers.mjs 转换与生成预览页；.tex 由 build-tex.mjs 生成可读页面
+  const EXTRA_RE = /\.(base|canvas|docx|doc|pdf|tex|pptx|ppt|xlsx|zip)$/i
   const extraFiles = walk(SRC_DIR).filter((f) => EXTRA_RE.test(f) && !isJunk(f))
 
   for (const file of mdFiles) {
