@@ -661,11 +661,172 @@ blockquote {
   }
 }
 
+// ---------------------------------------------- 侧边栏：更窄 + 可折叠
+//
+// Quartz 默认两侧各 320px，这里收到 15rem(240px)，和 ArchWiki 的窄侧栏接近；
+// 折叠状态写在 <html data-sidebar-left/right="collapsed"> 上，由
+// quartz/components/scripts/sidebarToggle.ts 负责切换并存进 localStorage。
+
+:root {
+  --aw-sidebar: 15rem; // 240px，想再宽/窄只改这一行
+  --aw-toggle-size: 1.3rem;
+}
+
+// 窄栏之后两侧 2rem 的内边距太占地方，收到 1.1rem；
+// 外侧再多留一点，正好给贴边的折叠按钮让位（按钮宽 21px）
+#quartz-body .sidebar {
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
+}
+
+#quartz-body .sidebar.left {
+  padding-left: 1.55rem;
+}
+
+#quartz-body .sidebar.right {
+  padding-right: 1.55rem;
+}
+
+// 中间列用 minmax(0, 1fr) 而不是 Quartz 默认的 auto：轨道尺寸确定，正文宽度不会跳。
+// 404 / full-width 这类框架页（data-frame）本来就不走三栏，排除掉，别把它们的宽度也改坏。
+$awBody: ".page:not([data-frame=minimal]):not([data-frame=full-width]) > #quartz-body";
+
+// 桌面：左栏 / 正文 / 右栏 三列
+@media all and (min-width: 1200px) {
+  #{$awBody} {
+    grid-template-columns: var(--aw-sidebar) minmax(0, 1fr) var(--aw-sidebar);
+    transition: grid-template-columns 0.18s ease;
+  }
+
+  html[data-sidebar-left="collapsed"] #{$awBody} {
+    grid-template-columns: 0 minmax(0, 1fr) var(--aw-sidebar);
+  }
+
+  html[data-sidebar-right="collapsed"] #{$awBody} {
+    grid-template-columns: var(--aw-sidebar) minmax(0, 1fr) 0;
+  }
+
+  html[data-sidebar-left="collapsed"][data-sidebar-right="collapsed"] #{$awBody} {
+    grid-template-columns: 0 minmax(0, 1fr) 0;
+  }
+
+  // 注意：这里不能用 display:none。.center 在 Quartz 里是「自动放置」的网格项，
+  // 侧栏一旦 display:none 就会腾出它那一格，正文会被自动塞进 0 宽的列里变成一条竖线。
+  // 用 visibility + overflow 保留占位，只让它看不见。
+  html[data-sidebar-left="collapsed"] #quartz-body .sidebar.left,
+  html[data-sidebar-right="collapsed"] #quartz-body .sidebar.right {
+    visibility: hidden;
+    overflow: hidden;
+    padding: 0;
+    min-width: 0;
+    border: none;
+  }
+}
+
+// 平板：只有左栏占列，右侧栏在正文下方，直接整块收掉即可
+@media all and (min-width: 800px) and (max-width: 1199.98px) {
+  #{$awBody} {
+    grid-template-columns: var(--aw-sidebar) minmax(0, 1fr);
+    transition: grid-template-columns 0.18s ease;
+  }
+
+  html[data-sidebar-left="collapsed"] #{$awBody} {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+
+  html[data-sidebar-left="collapsed"] #quartz-body .sidebar.left {
+    visibility: hidden;
+    overflow: hidden;
+    padding: 0;
+    min-width: 0;
+  }
+
+  html[data-sidebar-right="collapsed"] #quartz-body .sidebar.right {
+    display: none;
+  }
+}
+
+// 手机上永远是单列，不吃折叠状态
+@media all and (max-width: 799.98px) {
+  .sidebar-toggle {
+    display: none !important;
+  }
+}
+
+// 贴在视口左右边缘的收起/展开小按钮
+.sidebar-toggle {
+  display: none; // JS 检测到确实有侧栏时才加 .is-visible
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  align-items: center;
+  justify-content: center;
+  width: var(--aw-toggle-size);
+  height: 2.6rem;
+  padding: 0;
+  border: 1px solid var(--aw-border-light);
+  background: var(--light);
+  color: var(--aw-text-sub);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+
+  &[data-side="left"] {
+    left: 0;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+  }
+
+  &[data-side="right"] {
+    right: 0;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+
+  &.is-visible {
+    display: flex;
+  }
+
+  &:hover {
+    opacity: 1;
+    background: var(--highlight);
+    color: var(--aw-link);
+  }
+
+  & svg {
+    transition: transform 0.18s ease;
+  }
+
+  // 箭头方向：展开时指向自己要收起的那一侧
+  &[data-side="right"] svg {
+    transform: scaleX(-1);
+  }
+}
+
+html[data-sidebar-left="collapsed"] .sidebar-toggle[data-side="left"] svg {
+  transform: scaleX(-1);
+}
+
+html[data-sidebar-right="collapsed"] .sidebar-toggle[data-side="right"] svg {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page > #quartz-body,
+  .sidebar-toggle svg {
+    transition: none;
+  }
+}
+
 @media print {
   .sidebar,
   header,
   .giscus,
   .breadcrumb-container {
+    display: none !important;
+  }
+  .sidebar-toggle {
     display: none !important;
   }
 }

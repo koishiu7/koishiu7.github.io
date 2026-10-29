@@ -264,6 +264,35 @@ options:
 
 ---
 
+## 两侧栏：更窄 + 可折叠
+
+Quartz 默认两侧各 320px，这里按 ArchWiki 的密度收到 **240px**，正文能多吃 160px 宽。
+
+想再调宽窄，只改 `custom.scss` 里这一行：
+
+```scss
+:root {
+  --aw-sidebar: 15rem; // 240px
+}
+```
+
+两侧视口边缘各有一个小箭头标签（竖直居中），点一下就把那一栏收起来，再点一下放回来：
+
+| 操作 | 效果 |
+| --- | --- |
+| 点左/右边缘的箭头 | 收起 / 展开对应侧栏 |
+| 快捷键 `[` | 收起 / 展开左侧栏 |
+| 快捷键 `]` | 收起 / 展开右侧栏 |
+
+状态存在浏览器 localStorage 里，刷新、翻页、SPA 跳转都记得；窗口宽度小于 800px 时按钮自动隐藏，手机上始终是单列。
+
+实现上有两个坑，改样式时别踩：
+
+1. **不能 `display:none` 侧栏**。`.center` 在 Quartz 里是「自动放置」的网格项，侧栏一旦 `display:none` 就腾空了它那一格，正文会被自动塞进 0 宽的列里变成一条竖线。这里用 `visibility: hidden` + `overflow: hidden` 保留占位。
+2. **中间列要用 `minmax(0, 1fr)`**，别用 Quartz 默认的 `auto`；`404`、`full-width` 这类 `data-frame` 框架页也要排除在外，否则它们的宽度会被一起改坏。
+
+---
+
 ## 草稿与私密内容
 
 - frontmatter 写 `draft: true` → 不发布
@@ -284,6 +313,7 @@ options:
 │   └── build-papers.mjs  # 论文附件：转换 PDF + 生成预览页
 ├── quartz.config.yaml    # 站点配置：标题、配色、插件、布局
 ├── quartz/styles/custom.scss  # ArchWiki 风格样式
+├── quartz/components/scripts/sidebarToggle.ts  # 两侧栏折叠开关（本站自定义）
 ├── bibliography.bib      # Zotero 导出的文献库
 └── .github/workflows/
     ├── deploy.yml        # 构建 + 发布（不转换文档，秒级）
@@ -300,6 +330,7 @@ options:
 | 主色调 | `quartz.config.yaml` → `theme.colors.lightMode.secondary` |
 | 字体 | `theme.typography` + `custom.scss` 顶部字体栈 |
 | 右侧栏放什么 | `quartz.config.yaml` 里组件的 `layout.position` |
+| 侧栏宽度 | `custom.scss` → `:root { --aw-sidebar }`（默认 15rem = 240px） |
 | 引用样式 | citations 插件的 `csl` |
 
 改完跑 `npm run preview` 看效果，满意再推送。

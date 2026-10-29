@@ -6,6 +6,11 @@ import { QuartzEmitterPlugin } from "../types"
 import spaRouterScript from "../../components/scripts/spa.inline"
 // @ts-ignore
 import popoverScript from "../../components/scripts/popover.inline"
+// 本站自定义：两侧边栏折叠开关（的前置/后置脚本）
+import {
+  sidebarToggleAfterDOMLoaded,
+  sidebarToggleBeforeDOMLoaded,
+} from "../../components/scripts/sidebarToggle"
 import baseStyles from "../../styles/base.scss"
 import customStyles from "../../styles/custom.scss"
 import popoverStyle from "../../components/styles/popover.scss"
@@ -257,6 +262,10 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
       document.head.appendChild(rybbitScript);
     `)
   }
+
+  // 两侧边栏折叠开关（本站自定义，样式见 quartz/styles/custom.scss 同名段落）
+  componentResources.beforeDOMLoaded.push(sidebarToggleBeforeDOMLoaded)
+  componentResources.afterDOMLoaded.push(sidebarToggleAfterDOMLoaded)
 
   if (cfg.enableSPA) {
     componentResources.afterDOMLoaded.push(spaRouterScript)
