@@ -214,9 +214,14 @@ plugins:
 
   # ---------- 布局组件 ----------
 
-  # 左侧：文件夹树（ArchWiki 的侧边导航）
+  # 左侧：文件夹树（ArchWiki 的侧边导航），默认展开到二级
   - source: "@quartz-community/explorer"
     enabled: true
+    options:
+      title: 浏览
+      folderDefaultState: open
+      folderClickBehavior: collapse
+      useSavedState: false
     layout:
       position: left
       priority: 50
@@ -259,9 +264,10 @@ plugins:
       priority: 25
       display: mobile-only
 
-  # 右侧：关系图 / 目录 / 反向链接（ArchWiki 的 "在本页" 栏）
+  # 右侧：目录 / 反向链接（ArchWiki 的 "在本页" 栏）
+  # 关系图默认关闭，需要时改 enabled: true 即可
   - source: "@quartz-community/graph"
-    enabled: true
+    enabled: false
     layout:
       position: right
       priority: 10
@@ -329,9 +335,9 @@ plugins:
       position: footer
       priority: 50
 
-  # 首页/文件夹页展示最近更新
+  # 首页/文件夹页展示最近更新（ArchWiki 没有这个模块，默认关闭）
   - source: "@quartz-community/recent-notes"
-    enabled: true
+    enabled: false
 
 layout:
   groups:

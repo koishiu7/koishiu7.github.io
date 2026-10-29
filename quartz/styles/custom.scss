@@ -1,72 +1,71 @@
 // ============================================================
-//  ArchWiki 风格主题  ·  Koishiu 的知识库
-//  设计取向：信息密度优先 / 结构清晰 / 克制的现代感
-//  参考 ArchWiki 的可读性策略：细边框、表头底色、左色条信息框、
-//  标题分级线、紧凑的导航树，同时保留轻毛玻璃的现代质感。
+//  ArchWiki 风格 · 朴素版
+//  原则：白底、细线、蓝链接、无装饰
+//  —— 去掉毛玻璃、渐变、圆角卡片和阴影，只留结构和层级
 // ============================================================
 
-// ---------------------------------------------- 0. 基础变量与字体
+// ---------------------------------------------- 变量
 
 :root {
   --bodyFont: "Inter", "Noto Sans SC", "PingFang SC", "HarmonyOS Sans SC",
     "Microsoft YaHei", system-ui, sans-serif;
-  --headerFont: "Inter", "Noto Sans SC", "PingFang SC", "HarmonyOS Sans SC",
-    "Microsoft YaHei", system-ui, sans-serif;
+  --headerFont: var(--bodyFont);
   --codeFont: "JetBrains Mono", "Cascadia Code", "Fira Code", ui-monospace,
-    SFMono-Regular, Menlo, monospace;
+    "SFMono-Regular", Menlo, monospace;
 
-  // ArchWiki 的细边框色
-  --aw-border: #d8dee4;
-  --aw-surface: #f7f9fa;
-  --aw-radius: 6px;
+  // ArchWiki 的配色
+  --aw-text: #202122;
+  --aw-text-sub: #54595d;
+  --aw-link: #3366cc;
+  --aw-link-visited: #795cb2;
+  --aw-link-hover: #4477dd;
+  --aw-border: #a2a9b1;
+  --aw-border-light: #c8ccd1;
+  --aw-surface: #f8f9fa;
+  --aw-code-bg: #f8f9fa;
 }
 
 html[saved-theme="dark"] {
-  --aw-border: #343a42;
-  --aw-surface: #1c1f26;
+  --aw-text: #eaecf0;
+  --aw-text-sub: #a2a9b1;
+  --aw-link: #6e9fd4;
+  --aw-link-visited: #a98bd0;
+  --aw-link-hover: #8fb8e0;
+  --aw-border: #54595d;
+  --aw-border-light: #404244;
+  --aw-surface: #1c1f22;
+  --aw-code-bg: #1c1f22;
 }
 
-// ---------------------------------------------- 1. 背景（克制的毛玻璃）
+// ---------------------------------------------- 基础
 
 body {
-  background: linear-gradient(180deg, #fbfcfd 0%, #f2f5f7 100%);
-  background-attachment: fixed;
+  background: var(--light);
   font-family: var(--bodyFont);
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-html[saved-theme="dark"] body {
-  background: linear-gradient(180deg, #14161a 0%, #1a1d23 100%);
-}
-
-// 顶栏
+// 顶栏：一条细线，无毛玻璃
 header {
-  backdrop-filter: blur(10px) saturate(160%);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  background-color: rgba(255, 255, 255, 0.72) !important;
-  border-bottom: 1px solid var(--aw-border);
+  background: var(--light) !important;
+  border-bottom: 1px solid var(--aw-border-light);
+  backdrop-filter: none;
 }
 
-html[saved-theme="dark"] header {
-  background-color: rgba(20, 22, 26, 0.75) !important;
-  border-bottom: 1px solid var(--aw-border);
-}
-
-// ---------------------------------------------- 2. 正文排版（信息密度）
+// ---------------------------------------------- 正文
 
 .markdown-preview-view,
 .markdown-rendered {
   font-family: var(--bodyFont);
-  font-size: 1rem;
-  line-height: 1.78;
-  color: var(--darkgray);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  color: var(--aw-text);
 
   p {
-    margin: 0.75em 0;
+    margin: 0.65em 0;
   }
 
-  // 标题：层级靠字号 + 细线区分，而非靠颜色
+  // 标题用衬线，接近 wiki 的观感
   h1,
   h2,
   h3,
@@ -74,118 +73,230 @@ html[saved-theme="dark"] header {
   h5,
   h6 {
     font-family: var(--headerFont);
-    font-weight: 600;
-    color: var(--dark);
-    line-height: 1.35;
-    margin-top: 1.8em;
-    margin-bottom: 0.6em;
+    font-weight: 500;
+    color: var(--aw-text);
+    line-height: 1.3;
+    margin-top: 1.7em;
+    margin-bottom: 0.5em;
   }
 
   h1 {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
     margin-top: 0;
+    font-weight: 600;
   }
 
-  // ArchWiki 标志性的 h2 下边线
+  // ArchWiki 的 h2：细分隔线，不靠颜色
   h2 {
-    font-size: 1.42rem;
-    padding-bottom: 0.25em;
+    font-size: 1.4rem;
+    padding-bottom: 0.22em;
     border-bottom: 1px solid var(--aw-border);
   }
 
   h3 {
-    font-size: 1.16rem;
+    font-size: 1.14rem;
+    font-weight: 600;
   }
 
   h4 {
-    font-size: 1.02rem;
+    font-size: 1rem;
+    font-weight: 600;
   }
 
   ul,
   ol {
-    padding-left: 1.6em;
-    margin: 0.6em 0;
+    padding-left: 1.5em;
+    margin: 0.55em 0;
   }
 
   li {
-    margin: 0.25em 0;
+    margin: 0.2em 0;
   }
 
   hr {
     border: none;
-    border-top: 1px solid var(--aw-border);
-    margin: 1.8em 0;
+    border-top: 1px solid var(--aw-border-light);
+    margin: 1.6em 0;
   }
 
-  // 图片：居中 + 细边框 + 圆角
+  // 图片：左对齐，细边框，无圆角
   img {
-    display: block;
-    margin: 1.2em auto;
     max-width: 100%;
-    border: 1px solid var(--aw-border);
-    border-radius: var(--aw-radius);
-    background: var(--light);
+    border: 1px solid var(--aw-border-light);
+    margin: 0.8em 0;
   }
 }
 
-// ---------------------------------------------- 3. 表格（ArchWiki 核心特征）
+// ---------------------------------------------- 链接（ArchWiki 的核心观感）
+
+article a {
+  color: var(--aw-link);
+  text-decoration: none;
+  border-bottom: none;
+
+  &:hover {
+    color: var(--aw-link-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  &:visited {
+    color: var(--aw-link-visited);
+  }
+}
+
+// 首页条目的「蓝色粗体标题 + 灰色描述」
+body[data-slug="index"] article {
+  ul {
+    column-count: 2;
+    column-gap: 3rem;
+    list-style: none;
+    padding-left: 0;
+    margin: 0.8em 0 1.6em;
+  }
+
+  li {
+    break-inside: avoid;
+    padding: 0 0 0 0.9rem;
+    margin: 0 0 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--aw-text-sub);
+  }
+
+  // 标题独占一行，描述自然落到下一行
+  li strong {
+    display: block;
+    margin-bottom: 0.1rem;
+    font-weight: 700;
+    font-size: 0.98rem;
+  }
+
+  li strong a {
+    color: var(--aw-link);
+  }
+
+  h2 {
+    margin-top: 1.5em;
+  }
+}
+
+// 首页是门户：不显示日期、标签和评论区（它们属于具体文章）
+body[data-slug="index"] .content-meta,
+body[data-slug="index"] .giscus {
+  display: none;
+}
+
+@media all and (max-width: 800px) {
+  body[data-slug="index"] article ul {
+    column-count: 1;
+  }
+}
+
+// 标签
+.tag-link,
+a.tag-link {
+  display: inline-block;
+  padding: 0 0.45em;
+  margin: 0 0.3em 0.2em 0;
+  font-size: 0.8rem;
+  color: var(--aw-link);
+  background: var(--aw-surface);
+  border: 1px solid var(--aw-border-light);
+  border-radius: 2px;
+
+  &:hover {
+    text-decoration: none;
+    border-color: var(--aw-border);
+  }
+}
+
+// ---------------------------------------------- 文件夹索引页
+// ArchWiki 的目录页是纯链接列表，不带日期和摘要
+
+.section-ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.8em 0;
+}
+
+.section-li {
+  margin: 0;
+  padding: 0.3rem 0;
+  border-bottom: 1px dotted var(--aw-border-light);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.section {
+  display: block;
+}
+
+.section .meta {
+  display: none;
+}
+
+.section .desc h3 {
+  font-family: var(--bodyFont);
+  font-size: 0.96rem;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.section .tags {
+  display: inline;
+  margin-left: 0.5rem;
+}
+
+// ---------------------------------------------- 表格
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.2em 0;
-  font-size: 0.94rem;
+  margin: 1em 0;
+  font-size: 0.9rem;
   border: 1px solid var(--aw-border);
-  border-radius: var(--aw-radius);
-  overflow: hidden;
 
   th,
   td {
-    padding: 0.5em 0.8em;
-    border: 1px solid var(--aw-border);
+    padding: 0.42em 0.7em;
+    border: 1px solid var(--aw-border-light);
     text-align: left;
     vertical-align: top;
   }
 
-  // 表头：浅灰底 + 加粗，ArchWiki 的表格辨识度来源
   th {
     background: var(--aw-surface);
-    font-weight: 600;
-    color: var(--dark);
+    font-weight: 700;
+    color: var(--aw-text);
+    border-color: var(--aw-border);
     white-space: nowrap;
-  }
-
-  // 斑马纹（很淡，避免噪音）
-  tbody tr:nth-child(even) {
-    background: color-mix(in srgb, var(--aw-surface) 55%, transparent);
-  }
-
-  tbody tr:hover {
-    background: var(--highlight);
   }
 }
 
-// ---------------------------------------------- 4. 信息框（Note/Tip/Warning）
+// ---------------------------------------------- 信息框（ArchWiki 的 note 样式）
 
 .callout {
-  margin: 1.2em 0;
-  padding: 0.7em 1em 0.7em 1.05em;
-  border: 1px solid var(--aw-border);
-  border-left: 4px solid var(--secondary);
-  border-radius: 0 var(--aw-radius) var(--aw-radius) 0;
+  margin: 1em 0;
+  padding: 0.55em 0.9em;
+  border: 1px solid var(--aw-border-light);
+  border-left: 3px solid var(--aw-border);
   background: var(--aw-surface);
 
   .callout-title {
     display: flex;
     align-items: center;
-    gap: 0.5em;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--dark);
+    gap: 0.4em;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--aw-text);
   }
 
   .callout-title-inner {
-    font-weight: 600;
+    font-weight: 700;
 
     p {
       margin: 0;
@@ -193,8 +304,8 @@ table {
   }
 
   .callout-content {
-    margin-top: 0.45em;
-    font-size: 0.96rem;
+    margin-top: 0.3em;
+    font-size: 0.92rem;
 
     p:first-child {
       margin-top: 0;
@@ -205,203 +316,132 @@ table {
   }
 }
 
-// 按类型着色（ArchWiki 的 note / tip / warning 三分法）
-// Quartz 同时输出 class="callout note" 与 data-callout="note"，两种都匹配
 .callout.note,
 .callout.info,
 .callout[data-callout="note"],
 .callout[data-callout="info"] {
-  border-left-color: var(--secondary);
-  background: color-mix(in srgb, var(--secondary) 6%, var(--light));
+  border-left-color: var(--aw-link);
 }
 
 .callout.tip,
 .callout.hint,
 .callout.success,
-.callout[data-callout="tip"],
-.callout[data-callout="hint"],
-.callout[data-callout="success"] {
-  border-left-color: #2f9e44;
-  background: color-mix(in srgb, #2f9e44 6%, var(--light));
+.callout[data-callout="tip"] {
+  border-left-color: #14866d;
 }
 
 .callout.warning,
 .callout.caution,
-.callout.attention,
-.callout[data-callout="warning"],
-.callout[data-callout="caution"],
-.callout[data-callout="attention"] {
-  border-left-color: #e8590c;
-  background: color-mix(in srgb, #e8590c 7%, var(--light));
+.callout[data-callout="warning"] {
+  border-left-color: #ac6600;
 }
 
 .callout.danger,
 .callout.error,
-.callout.failure,
-.callout[data-callout="danger"],
-.callout[data-callout="error"],
-.callout[data-callout="failure"] {
-  border-left-color: #e03131;
-  background: color-mix(in srgb, #e03131 6%, var(--light));
+.callout[data-callout="danger"] {
+  border-left-color: #b32424;
 }
 
-.callout.quote,
-.callout.cite,
-.callout[data-callout="quote"],
-.callout[data-callout="cite"] {
-  border-left-color: var(--gray);
-  background: transparent;
-  font-style: italic;
-}
-
-// ---------------------------------------------- 5. 链接
-
-article a {
-  color: var(--secondary);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition:
-    border-color 0.15s ease,
-    color 0.15s ease;
-
-  &:hover {
-    color: var(--tertiary);
-    border-bottom-color: currentColor;
-  }
-}
-
-// 标签
-a.tag-link,
-.tag-link {
-  display: inline-block;
-  padding: 0.1em 0.55em;
-  margin: 0.12em 0.25em 0.12em 0;
-  font-size: 0.82rem;
-  color: var(--secondary);
-  background: var(--highlight);
-  border-radius: 999px;
-  border: 1px solid transparent;
-
-  &:hover {
-    border-color: var(--secondary);
-  }
-}
-
-// ---------------------------------------------- 6. 代码
+// ---------------------------------------------- 代码与引用
 
 code {
   font-family: var(--codeFont);
-  font-size: 0.875em;
-  padding: 0.12em 0.35em;
-  background: var(--aw-surface);
-  border: 1px solid var(--aw-border);
-  border-radius: 4px;
+  font-size: 0.86em;
+  padding: 0.1em 0.3em;
+  background: var(--aw-code-bg);
+  border: 1px solid var(--aw-border-light);
+  border-radius: 2px;
 }
 
 pre {
-  border: 1px solid var(--aw-border);
-  border-radius: var(--aw-radius);
-  background: var(--aw-surface) !important;
-  padding: 0.9em 1em;
+  border: 1px solid var(--aw-border-light);
+  background: var(--aw-code-bg) !important;
+  padding: 0.8em 0.9em;
   overflow-x: auto;
-  line-height: 1.6;
+  line-height: 1.55;
+  border-radius: 2px;
 
   > code {
     border: none;
     background: transparent;
     padding: 0;
-    font-size: 0.86rem;
+    font-size: 0.85rem;
   }
 }
 
-// 引用块
 blockquote {
-  margin: 1.2em 0;
-  padding: 0.5em 1em;
-  border-left: 3px solid var(--aw-border);
-  color: var(--darkgray);
-  background: var(--aw-surface);
-  border-radius: 0 var(--aw-radius) var(--aw-radius) 0;
+  margin: 1em 0;
+  padding: 0.2em 0.9em;
+  border-left: 3px solid var(--aw-border-light);
+  color: var(--aw-text-sub);
+  background: transparent;
 
   p {
     margin: 0.35em 0;
   }
 }
 
-// ---------------------------------------------- 7. 侧边栏与导航树
+// ---------------------------------------------- 侧边栏与导航
 
 .sidebar {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  border-radius: 10px;
+  background: transparent !important;
+  border-radius: 0;
+  backdrop-filter: none;
+}
 
-  @media all and (max-width: 800px) {
-    backdrop-filter: none;
-    background-color: var(--light) !important;
+.page-title a {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  color: var(--aw-text);
+  font-size: 1.05rem;
+
+  &:hover {
+    text-decoration: none;
   }
 }
 
-html[saved-theme="dark"] .sidebar {
-  background-color: rgba(22, 24, 29, 0.5) !important;
-}
-
-// 站名
-.page-title a {
-  font-family: var(--headerFont);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--dark);
-  border-bottom: none !important;
-}
-
-// 文件夹树：更紧凑，缩进更浅
 .explorer {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 
   .folder-container,
   .nav-file-title {
-    padding: 0.16rem 0.3rem;
-    border-radius: 4px;
+    padding: 0.14rem 0.25rem;
+    border-radius: 2px;
     border-left: 2px solid transparent;
-    transition:
-      background 0.12s ease,
-      border-color 0.12s ease;
 
     &:hover {
-      background: var(--highlight);
+      background: var(--aw-surface);
     }
   }
 
-  // 当前页高亮：用左侧色条标记当前条目
   .nav-file-title[aria-current="page"],
   .nav-file-title.active {
-    border-left-color: var(--secondary);
-    background: var(--highlight);
-    color: var(--secondary);
-    font-weight: 600;
+    border-left-color: var(--aw-link);
+    background: var(--aw-surface);
+    color: var(--aw-link);
   }
 
   .folder-title {
     font-weight: 600;
-    color: var(--darkgray);
+    color: var(--aw-text);
   }
 
   ul {
-    padding-left: 1rem;
+    padding-left: 0.9rem;
   }
 }
 
 // 右侧目录
 .toc {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 
   .toc-header {
-    font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--gray);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--aw-text-sub);
+    border-bottom: 1px solid var(--aw-border-light);
+    padding-bottom: 0.25rem;
     margin-bottom: 0.4rem;
   }
 
@@ -411,25 +451,24 @@ html[saved-theme="dark"] .sidebar {
   }
 
   li {
-    margin: 0.15rem 0;
+    margin: 0.1rem 0;
 
     a {
-      color: var(--darkgray);
-      border-bottom: none;
       display: block;
-      padding: 0.12rem 0.4rem;
+      padding: 0.1rem 0.35rem;
+      color: var(--aw-text-sub);
       border-left: 2px solid transparent;
-      border-radius: 0 4px 4px 0;
 
       &:hover {
-        color: var(--secondary);
-        background: var(--highlight);
+        color: var(--aw-link);
+        text-decoration: none;
+        background: var(--aw-surface);
       }
 
       &.in-view {
-        color: var(--secondary);
-        border-left-color: var(--secondary);
-        background: var(--highlight);
+        color: var(--aw-link);
+        border-left-color: var(--aw-link);
+        background: var(--aw-surface);
       }
     }
   }
@@ -437,38 +476,33 @@ html[saved-theme="dark"] .sidebar {
 
 // 搜索框
 .search-container {
-  backdrop-filter: blur(12px);
-  background-color: rgba(255, 255, 255, 0.88) !important;
+  background: var(--light) !important;
   border: 1px solid var(--aw-border);
-  border-radius: var(--aw-radius);
+  border-radius: 2px;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
-html[saved-theme="dark"] .search-container {
-  background-color: rgba(26, 29, 35, 0.92) !important;
-}
+// ---------------------------------------------- 页面头部
 
-// ---------------------------------------------- 8. 页面头部细节
-
-// 面包屑（顶部路径导航）
 .breadcrumb-container {
-  font-size: 0.82rem;
-  color: var(--gray);
-  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--aw-text-sub);
+  margin-bottom: 0.35rem;
 
   .breadcrumb-element {
     a {
-      color: var(--darkgray);
-      border-bottom: none;
+      color: var(--aw-link);
 
       &:hover {
-        color: var(--secondary);
+        text-decoration: underline;
       }
     }
 
     &::after {
       content: "›";
-      margin: 0 0.35em;
-      color: var(--gray);
+      margin: 0 0.3em;
+      color: var(--aw-text-sub);
     }
 
     &:last-child::after {
@@ -477,67 +511,58 @@ html[saved-theme="dark"] .search-container {
   }
 }
 
-// 文章大标题
 .article-title {
   font-family: var(--headerFont);
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  margin-bottom: 0.3rem;
-  padding-bottom: 0.4rem;
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--aw-text);
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--aw-border);
 }
 
-// 元信息（时间等）
 .content-meta {
-  font-size: 0.82rem;
-  color: var(--gray);
+  font-size: 0.8rem;
+  color: var(--aw-text-sub);
 }
 
-// ---------------------------------------------- 9. 顶部留白收紧
-// Quartz 默认上下留 6rem，ArchWiki 的观感更紧凑，收一半
-
+// 顶部留白收紧
 #quartz-body .sidebar {
-  padding-top: 3rem;
+  padding-top: 2.5rem;
 }
 
 #quartz-body .page-header {
-  margin-top: 3rem;
+  margin-top: 2.5rem;
 }
 
 @media all and (max-width: 800px) {
   #quartz-body .sidebar.left {
-    padding-top: 1.5rem;
+    padding-top: 1.2rem;
   }
   #quartz-body .page-header {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
   }
 }
 
-// ---------------------------------------------- 10. 评论与页脚
+// ---------------------------------------------- 评论与页脚
+
 .giscus {
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--aw-border);
+  margin-top: 2.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--aw-border-light);
 }
 
 .page-footer {
-  font-size: 0.82rem;
-  color: var(--gray);
-  border-top: 1px solid var(--aw-border);
-  margin-top: 2rem;
-  padding-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--aw-text-sub);
+  border-top: 1px solid var(--aw-border-light);
+  margin-top: 1.8rem;
+  padding-top: 0.8rem;
 }
-
-// ---------------------------------------------- 10. 响应式与打印
 
 @media all and (max-width: 800px) {
   .article-title {
-    font-size: 1.6rem;
-  }
-
-  .markdown-preview-view h2 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -547,13 +572,5 @@ html[saved-theme="dark"] .search-container {
   .giscus,
   .breadcrumb-container {
     display: none !important;
-  }
-
-  body {
-    background: #fff;
-  }
-
-  article {
-    max-width: 100%;
   }
 }

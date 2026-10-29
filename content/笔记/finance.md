@@ -1,5 +1,5 @@
 ---
-title: finance
+title: 金融学基础
 ---
 
 
