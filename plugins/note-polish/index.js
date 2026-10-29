@@ -1,12 +1,16 @@
 /**
- * note-polish —— 笔记排版的收尾工作，两件事：
+ * note-polish —— 笔记排版的收尾工作，三件事：
  *
  * 1) 维护状态徽标：笔记 frontmatter 写一行
  *      status: seed | growing | stable | stale
  *    （也认中文和几个常见别名，见 ALIASES），在正文最前面渲染一段：
  *      <a class="note-status" data-status="growing" href="/状态">● 生长中 · 还在整理，可能变</a>
  *
- * 2) 去掉与页面标题重复的正文一级标题。Obsidian 里习惯在开头再写一个 `# 标题`，
+ * 2) 忠实 md 的排版：笔记常常是「一行一句」写的，而标准 Markdown 会把同一个
+ *    段落里的换行折叠掉，句子全糊成一坨。这里把换行还原成 <br>，也就是
+ *    Obsidian 里「严格换行」的效果。单篇不想要：respectLineBreaks: false
+ *
+ * 3) 去掉与页面标题重复的正文一级标题。Obsidian 里习惯在开头再写一个 `# 标题`，
  *    而 Quartz 的 article-title 已经渲染了同一个标题，页面上会重复两遍。
  *    在 markdown 阶段处理，所以目录（TOC）里也不会多出一条。
  *
@@ -28,6 +32,8 @@ export const manifest = {
     overviewHref: "/状态",
     // 去掉与标题重复的正文 H1
     dropDuplicateH1: true,
+    // md 里的换行原样显示（和 Obsidian 的「严格换行」一样）；false = 回到标准 Markdown
+    respectLineBreaks: true,
   },
 }
 
@@ -92,6 +98,42 @@ function compact(text) {
   return String(text ?? "").replace(/\s+/g, "").toLowerCase()
 }
 
+// 这些节点里的换行必须有意义（代码要保证原样），不能动
+const KEEP_NEWLINES = new Set([
+  "code",
+  "inlineCode",
+  "yaml",
+  "html",
+  "definition",
+  "footnoteDefinition",
+])
+
+/** 把文本节点里的换行换成 break 节点；等价于 Obsidian 的「严格换行」 */
+function softenBreaks(node) {
+  const children = node?.children
+  if (!Array.isArray(children)) return
+
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i]
+    if (!child || typeof child !== "object") continue
+    if (KEEP_NEWLINES.has(child.type)) continue
+
+    if (child.type === "text" && typeof child.value === "string" && child.value.includes("\n")) {
+      const parts = child.value.split("\n")
+      const nodes = []
+      parts.forEach((part, k) => {
+        if (k > 0) nodes.push({ type: "break" })
+        if (part !== "") nodes.push({ type: "text", value: part })
+      })
+      children.splice(i, 1, ...nodes)
+      i += nodes.length - 1
+      continue
+    }
+
+    softenBreaks(child)
+  }
+}
+
 function text(value, className) {
   return {
     type: "element",
@@ -137,17 +179,31 @@ export default function NotePolish(userOpts) {
     name: "NotePolish",
 
     markdownPlugins() {
-      if (!opts.dropDuplicateH1) return []
-      return [
-        () => (tree, file) => {
-          const title = plainText(file.data?.frontmatter?.title).trim()
-          if (!title) return
-          const first = (tree.children ?? []).find((n) => n.type !== "yaml" && n.type !== "html")
-          if (!first || first.type !== "heading" || first.depth !== 1) return
-          if (compact(plainText(first)) !== compact(title)) return
-          tree.children.splice(tree.children.indexOf(first), 1)
-        },
-      ]
+      const plugins = []
+
+      // --- 忠实 md 的排版：软换行保留成换行 ---
+      // 标准 Markdown 会把同一个段落里的换行折叠掉。但笔记常常是「一行一句」写的
+      // （Obsidian 里的「严格换行」也是这个效果），折叠之后所有句子糊成一坨，
+      // 和写作时看到的完全不一样。这里把换行还原回 <br>。
+      // 单篇不想这样：frontmatter 写 `respectLineBreaks: false`
+      if (opts.respectLineBreaks) plugins.push(() => (tree, file) => {
+        const fm = file.data?.frontmatter ?? {}
+        const off = fm.respectLineBreaks === false || fm.breakLines === false
+        if (off) return
+        softenBreaks(tree)
+      })
+
+      // --- 去掉与页面标题重复的正文 H1 ---
+      if (opts.dropDuplicateH1) plugins.push(() => (tree, file) => {
+        const title = plainText(file.data?.frontmatter?.title).trim()
+        if (!title) return
+        const first = (tree.children ?? []).find((n) => n.type !== "yaml" && n.type !== "html")
+        if (!first || first.type !== "heading" || first.depth !== 1) return
+        if (compact(plainText(first)) !== compact(title)) return
+        tree.children.splice(tree.children.indexOf(first), 1)
+      })
+
+      return plugins
     },
 
     htmlPlugins() {

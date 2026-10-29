@@ -299,14 +299,51 @@ Quartz 默认两侧各 320px，这里按 ArchWiki 的密度收到 **240px**，�
 
 | 问题 | 处理 |
 | --- | --- |
+| 顶栏浮在屏幕上、挡住正文 | 见下面那个坑——改成跟着页面滚走的一行（57px 高） |
 | 宽表格把页面撑出横向滚动条 | 脚本给 `<table>` 套一层 `.table-wrap`，只有表格自己横向滚 |
 | 手机上没有右侧栏，目录就消失了 | 目录克隆成一个可折叠的 `<details class="mobile-toc">`，插在标题下方 |
 | 顶栏图标太小点不准 | 搜索 / 深色 / 阅读模式 / 侧栏按钮统一 36×36 触控区 |
-| 正文字太小 | 16px、行高 1.78，标题逐级降一档 |
+| 正文字太小 | 16px、行高 1.75，标题逐级降一档 |
 | 论文 PDF 预览太矮 | iframe 改成 `68vh`（最小 420px），按钮加大 |
 | 长标题把顶栏顶爆 | `.page-title` 单行省略号 |
 
+> **坑：`position: sticky` 的侧栏在手机上会盖住正文。**
+> Quartz 的 ExplorerComponent 自带 `.page>#quartz-body .sidebar.left:has(.explorer) { position: sticky }`，
+> 它写在**组件 CSS**里，加载顺序排在 `custom.scss` 之后，会把整条顶栏钉在屏幕顶端——
+> 往下滚的时候正文就从站名底下穿过去。要覆盖它得用更高的特异性
+> （这里用 `html #quartz-root.page > #quartz-body .sidebar.left:has(.explorer)`）。
+
 代码在 `quartz/components/scripts/siteEnhance.ts`（运行时 DOM 增强）和 `custom.scss` 的 `@media all and (max-width: 799.98px)` 段。SPA 跳转会重新跑一遍。
+
+---
+
+## 排版：跟着 md 走
+
+两类「和 Obsidian 里看起来不一样」都在这里修掉了。
+
+**1. 换行。** 标准 Markdown 会把同一个段落里的换行折叠掉。笔记常常是「一行一句」写的
+（Obsidian 里的「严格换行」也是这个效果），折叠之后句子全糊成一坨。`note-polish` 插件
+把换行还原成 `<br>`，代码块不受影响。
+
+不想这样只有某几篇，在 frontmatter 写：
+
+```yaml
+---
+respectLineBreaks: false   # 回到标准 Markdown 的折叠行为
+---
+```
+
+整站关掉：`quartz.config.yaml` 里 note-polish 的 `respectLineBreaks: false`。
+
+**2. 标题层次。** `节(h1) > 小节(h2) > 条(h3)` 三种梯度，靠字号 + 上留白 + 分隔线一起区分：
+
+| 层级 | 字号 | 上间距 | 分隔线 |
+| --- | --- | --- | --- |
+| `h1` | 1.55rem | 2.2em | 深色实线 |
+| `h2` | 1.25rem | 1.8em | 浅色实线 |
+| `h3` | 1.08rem | 1.8em | 无 |
+
+改这些值在 `custom.scss` 的「正文」一节。
 
 ---
 
