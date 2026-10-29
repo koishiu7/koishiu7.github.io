@@ -54,6 +54,12 @@ jobs:
         # 重命名为 assets/<笔记名>/01.png，并改写正文链接
         run: node tools/sync-vault.mjs --inplace
 
+      - name: 论文附件处理
+        # 只做两件事：把已有 PDF 收进 assets/papers/、生成在线预览页。
+        # 不转换、不装 LibreOffice —— 构建永远不会被文档转换拖慢。
+        # docx 的转换由 convert-papers.yml 在另一个工作流里异步完成。
+        run: node tools/build-papers.mjs --no-convert
+
       - name: 构建站点
         run: npx quartz build
 

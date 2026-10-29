@@ -32,7 +32,8 @@ Obsidian 写作 + Quartz 发布的个人知识 Wiki。风格参考 [ArchWiki](ht
 3. Obsidian → 打开文件夹 → 选 `content/`
 4. 装 Obsidian Git 插件，开 `Auto commit-and-sync`
 
-图片归类、构建、部署全跑在 GitHub Actions 上，本地一个依赖都不用装。
+图片归类、Word 转 PDF、构建、部署全跑在 GitHub Actions 上，本地一个依赖都不用装，
+也不用装 Word / LibreOffice。
 只有想本地预览时才需要 Node（可选）：`npm install && npm run preview`。
 
 ---
@@ -100,6 +101,43 @@ export OBSIDIAN_VAULT="D:/path/to/your/vault"
 编号严格按文中出现顺序排列。整理结果写在 `content/`，你的 Obsidian 原文件保持原样。
 
 > 想按日期归类、或改成 `<笔记名>-01.png` 这种扁平命名，改 `tools/sync-vault.mjs` 里的 `rewrite()` 函数即可。
+
+---
+
+## 论文：PDF 与 Word 怎么发
+
+把 `.pdf` 或 `.docx` 丢进 `小论文/`，同步、提交，剩下的事全在云端完成，你本地不用装任何转换工具。
+
+站点上每份论文都有独立页面：内嵌阅读器 + 下载链接。
+
+### 两条流水线，互不阻塞
+
+| 工作流 | 触发条件 | 做什么 | 耗时 |
+| --- | --- | --- | --- |
+| `convert-papers.yml` | 推送里含 `.docx` / `.doc` | 装 LibreOffice，转 PDF，把结果提交回 `content/assets/papers/` | 2–4 分钟 |
+| `deploy.yml` | `content/**` 等有改动 | 只搬运已有 PDF、生成预览页、构建发布 | 1–2 分钟 |
+
+关键点：**发布流程从不转换文档**（`build-papers.mjs --no-convert`），所以装 LibreOffice、跑 Word 转换再慢，也拖不到站点构建。
+
+### 推一份 Word 论文会发生什么
+
+1. 你的 docx 先被发布一次，页面上显示「正在转换」的占位提示 —— 笔记不会凭空消失
+2. 转换工作流同时跑完，把 PDF 提交回仓库
+3. 这次提交又触发一次发布，几十秒后刷新页面，PDF 就能直接在线看了
+
+全程约 3–5 分钟，你只做了一次 `git push`。
+
+### 想要 Word 的精确排版
+
+LibreOffice 偶尔会把复杂版式（公式、特殊字体、分栏）排得和 Word 不太一样。若在意：
+
+```bash
+npm run papers        # 本地用 Microsoft Word COM 导出，保真度最高
+git add content/assets/papers && git commit -m "论文 PDF" && git push
+```
+
+本地转换器优先级：**Microsoft Word → OnlyOffice → LibreOffice**。
+只要你提交了 PDF，云端就不会再转一次（同名 PDF 优先复用）。
 
 ---
 
@@ -191,12 +229,16 @@ options:
 ├── content/              # 笔记正文（Obsidian Vault 就指这里）
 │   ├── index.md          # 首页
 │   └── assets/           # 构建时自动生成的图片目录
+│       └── papers/       # 论文 PDF（本地或云端转换产出，会提交回仓库）
 ├── tools/
-│   └── sync-vault.mjs    # 同步 + 图片归类脚本
+│   ├── sync-vault.mjs    # 同步 + 图片归类脚本
+│   └── build-papers.mjs  # 论文附件：转换 PDF + 生成预览页
 ├── quartz.config.yaml    # 站点配置：标题、配色、插件、布局
 ├── quartz/styles/custom.scss  # ArchWiki 风格样式
 ├── bibliography.bib      # Zotero 导出的文献库
-└── .github/workflows/deploy.yml  # 自动部署
+└── .github/workflows/
+    ├── deploy.yml        # 构建 + 发布（不转换文档，秒级）
+    └── convert-papers.yml # docx → PDF，结果提交回仓库
 ```
 
 ---

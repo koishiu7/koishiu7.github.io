@@ -236,10 +236,10 @@ function main() {
   // 跳过 Obsidian 自动生成的空文件（未命名 / Untitled），它们没有内容却会污染索引
   const isJunk = (f) => /^(未命名|Untitled)/i.test(path.basename(f))
   const mdFiles = walk(SRC_DIR).filter((f) => MD_RE.test(f) && !isJunk(f))
-  // .base / .canvas 直接搬运
-  const extraFiles = walk(SRC_DIR).filter(
-    (f) => /\.(base|canvas)$/i.test(f) && !isJunk(f),
-  )
+  // .base / .canvas 直接搬运；论文类附件（docx/pdf/pptx…）也原样带过去，
+  // 交给 build-papers.mjs 转换与生成预览页
+  const EXTRA_RE = /\.(base|canvas|docx|doc|pdf|pptx|ppt|xlsx|zip)$/i
+  const extraFiles = walk(SRC_DIR).filter((f) => EXTRA_RE.test(f) && !isJunk(f))
 
   for (const file of mdFiles) {
     const rel = path.relative(SRC_DIR, file)

@@ -1,0 +1,99 @@
+name: 转换论文附件（docx → PDF）
+
+# 独立于站点构建的转换流水线。
+# 主构建（deploy.yml）只搬运已有 PDF，绝不等待转换，
+# 因此这里装 LibreOffice、跑几分钟，都不会拖慢你的发布速度。
+#
+# 流程：
+#   你推上来一个 .docx  → 本工作流转成 PDF → 提交到 content/assets/papers/
+#   → 这次提交再触发 deploy.yml，几十秒后站点上就能在线看这份论文
+#
+# 想跳过云端转换、用最保真的 Word 效果：本地 `npm run papers` 后一起提交 PDF 即可。
+
+on:
+  push:
+    branches: [v5, main]
+    paths:
+      - "content/**/*.docx"
+      - "content/**/*.doc"
+      - "tools/build-papers.mjs"
+      - ".github/workflows/convert-papers.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: "paper-convert"
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  actions: write # 提交后手动触发一次 deploy.yml（见最后一节说明）
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v6
+        with:
+          # 需要能提交回去，所以用默认 token 的完整权限
+          persist-credentials: true
+
+      - name: 安装 Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: 准备 LibreOffice 与中文字体
+        # 官方镜像一般自带 LibreOffice；没有才装。
+        # fonts-noto-cjk 必须装，否则中文会变成方框。
+        run: |
+          if ! command -v soffice >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends libreoffice-writer
+          fi
+          if ! fc-list :lang=zh 2>/dev/null | grep -q .; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+          fi
+
+      - name: 转换 docx → PDF
+        run: node tools/build-papers.mjs
+
+      - name: 提交转换结果
+        id: commit
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 只提交转换产物（PDF）；预览页 .md 每次构建时按需重新生成，不进仓库
+          git add -A content/assets/papers
+
+          if git diff --cached --quiet; then
+            echo "没有需要提交的转换结果。"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git commit -m "chore(论文): 云端转换 docx → PDF"
+
+          # 并发推送时先 rebase 再推，最多重试 3 次
+          for i in 1 2 3; do
+            if git push; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              echo "已推送。"
+              exit 0
+            fi
+            echo "推送失败，第 $i 次重试……"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          done
+          echo "推送失败，请手动检查。" >&2
+          exit 1
+
+      - name: 触发站点重新发布
+        # 用 GITHUB_TOKEN 推送的提交不会自动触发别的 workflow（GitHub 防死循环的机制），
+        # 所以这里显式 dispatch 一次 deploy.yml，把新 PDF 发布出去。
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml --ref "${GITHUB_REF_NAME}"

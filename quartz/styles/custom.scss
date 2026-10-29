@@ -251,6 +251,54 @@ a.tag-link {
   margin-left: 0.5rem;
 }
 
+// ---------------------------------------------- 论文 PDF 预览
+
+.pdf-embed {
+  margin: 1.2rem 0;
+  border: 1px solid var(--aw-border-light);
+  background: var(--aw-surface);
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 82vh;
+    min-height: 560px;
+    border: 0;
+  }
+}
+
+.pdf-download {
+  margin-top: 0.55rem;
+  font-size: 0.9rem;
+
+  a {
+    color: var(--aw-link);
+  }
+}
+
+// docx 正在云端转换时的占位提示
+.pdf-pending {
+  margin: 1.2rem 0;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--aw-border-light);
+  border-left: 3px solid var(--aw-link);
+  background: var(--aw-surface);
+  font-size: 0.92rem;
+  color: var(--aw-text-sub);
+
+  p {
+    margin: 0 0 0.45rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  strong {
+    color: var(--aw-text);
+  }
+}
+
 // ---------------------------------------------- 表格
 
 table {

@@ -14,8 +14,10 @@
   "scripts": {
     "sync": "node tools/sync-vault.mjs",
     "sync:dry": "node tools/sync-vault.mjs --dry",
-    "preview": "node tools/sync-vault.mjs && npx quartz build --serve",
-    "build": "node tools/sync-vault.mjs && npx quartz build",
+    "papers": "node tools/build-papers.mjs",
+    "papers:cloud": "node tools/build-papers.mjs --no-convert",
+    "preview": "node tools/sync-vault.mjs && node tools/build-papers.mjs && npx quartz build --serve",
+    "build": "node tools/sync-vault.mjs && node tools/build-papers.mjs && npx quartz build",
     "quartz": "./quartz/bootstrap-cli.mjs",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",
