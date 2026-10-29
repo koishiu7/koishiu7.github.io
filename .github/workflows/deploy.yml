@@ -1,0 +1,74 @@
+name: 部署知识库到 GitHub Pages
+
+# 触发方式：
+#   1. Obsidian（装了 obsidian-git 插件）里提交并推送 → 自动触发
+#   2. 手动 git push
+#   3. GitHub 网页上点 Run workflow
+on:
+  push:
+    branches: [v5, main]
+    paths:
+      - "content/**"
+      - "quartz.config.yaml"
+      - "bibliography.bib"
+      - "quartz/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+# 防止并发部署互相打架
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v6
+        with:
+          # Quartz 需要完整 git 历史来推算「创建/修改时间」
+          fetch-depth: 0
+
+      - name: 安装 Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 安装 Quartz 插件
+        run: npx quartz plugin install
+
+      - name: 图片自动归类
+        # 把 Obsidian 里散落的 Pasted image xxx.png
+        # 重命名为 assets/<笔记名>/01.png，并改写正文链接
+        run: node tools/sync-vault.mjs --inplace
+
+      - name: 构建站点
+        run: npx quartz build
+
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

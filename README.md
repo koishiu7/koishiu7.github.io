@@ -1,17 +1,190 @@
-# Quartz v5
+# Koishiu 的知识库
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+Obsidian 写作 + Quartz 发布的个人知识 Wiki。风格参考 [ArchWiki](https://wiki.archlinux.org/)：信息密度优先，结构清晰。
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
+线上地址：<https://koishiu7.github.io>
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+---
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+## 它解决了什么
 
-## Sponsors
+| 问题 | 处理方式 |
+| --- | --- |
+| Obsidian 里图片全堆在一个文件夹，分不清属于哪篇 | 构建时自动搬运为 `assets/<笔记名>/01.png` 并改写链接 |
+| 想发布却要手动复制、改路径、修链接 | 提交即触发 GitHub Actions，自动构建部署 |
+| 论文引用要手动敲参考文献 | Zotero + Better BibTeX 导出 `.bib`，正文写 `[@citekey]` 自动生成 |
+| 笔记多了找不到 | 文件夹树 + 全站搜索 + 标签页 + 关系图，四条路 |
+| 想让人留言 | 每篇底部 giscus 评论区（GitHub Discussions） |
 
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+---
+
+## 日常使用
+
+### 写作 → 发布
+
+笔记写在 `content/` 目录里。Obsidian 直接把 **`content/` 文件夹作为 Vault 打开**即可。
+
+```bash
+npm run sync      # 可选：从外部 Vault 同步笔记进来（见下）
+npm run preview   # 本地预览 http://localhost:8080
+git add -A && git commit -m "notes: ..." && git push
+```
+
+推送后 GitHub Actions 自动完成：图片归类 → 构建 → 发布。约 1–2 分钟后上线。
+
+### 全自动（推荐）
+
+在 Obsidian 里装 **Obsidian Git** 插件，设置 `Auto commit-and-sync interval` 为 10 分钟。
+之后只要在关掉 Obsidian 前它会自动推上去，你完全不用碰命令行。
+
+### 如果你把笔记放在别处
+
+脚本支持从任意 Vault 同步进 `content/`，原文件不会被改动：
+
+```bash
+# 指定源目录
+node tools/sync-vault.mjs "D:/path/to/your/vault"
+
+# 或设成环境变量，之后直接 npm run sync
+export OBSIDIAN_VAULT="D:/path/to/your/vault"
+```
+
+---
+
+## 图片为什么会自动归类
+
+在 Obsidian 里粘贴图片，默认生成 `Pasted image 20261028214219.png`，堆在仓库根目录。
+你不必改变习惯，构建时会做三件事：
+
+1. 把图片复制到 `assets/<笔记名>/01.png`、`02.png`……
+2. 把正文里的 `![[Pasted image xxx.png]]` 改写成 `![[assets/<笔记名>/01.png]]`
+3. 顺手修掉 Obsidian 里漏写 `]]` 的破损嵌入
+
+编号严格按文中出现顺序排列。整理结果写在 `content/`，你的 Obsidian 原文件保持原样。
+
+> 想按日期归类、或改成 `<笔记名>-01.png` 这种扁平命名，改 `tools/sync-vault.mjs` 里的 `rewrite()` 函数即可。
+
+---
+
+## Zotero 论文引用
+
+### 一次性设置
+
+1. Zotero 安装 [Better BibTeX](https://retorque.re/zotero-better-bibtex/)
+2. 选中文献集合 → 右键 → **导出条目** → 格式选 **Better BibTeX**
+3. 勾选 **Keep updated**，保存到本仓库根目录，文件名 `bibliography.bib`
+
+之后在 Zotero 里新增论文，这个文件会自动更新，提交后站点引用就齐了。
+
+### 写作时
+
+```markdown
+注意力机制依赖序列建模的长期积累[@hochreiter1997long]，
+而 Transformer 把它推到了主流[@vaswani2017attention]。
+```
+
+渲染成：(Hochreiter & Schmidhuber, 1997) 与 (Vaswani et al., 2017)，文末自动生成参考文献表。
+
+多篇一起引用：`[@a; @b]`。
+
+### 换引用样式
+
+`quartz.config.yaml` 里 citations 插件的 `csl` 字段：
+
+- `apa` — 默认，社科常用
+- `ieee` — 工科论文
+- 其他样式见 [rehype-citation 文档](https://rehype-citation.netlify.app/custom-csl)
+
+---
+
+## 启用评论（需要你操作一次）
+
+评论区用的是 [giscus](https://giscus.app/zh-CN)，基于 GitHub Discussions，免费、无广告、数据存在你自己的仓库里。
+
+配置已经写好，但 **`categoryId` 还是占位符，需要你补上**：
+
+1. 打开仓库 **Settings → General → Features**，勾选 **Discussions**
+2. 进入 **Discussions** 标签页 → 新建一个分类，名字叫 `Comments`（类型选 Announcements 或 General）
+3. 打开 <https://giscus.app/zh-CN>，在「仓库」填 `koishiu7/koishiu7.github.io`
+4. 页面下方会给出 `data-repo-id` 和 `data-category-id` 两串值
+5. 把它们填进 `quartz.config.yaml` 的 comments 插件：
+
+```yaml
+options:
+  repo: "koishiu7/koishiu7.github.io"
+  repoId: "1437762333"      # 已填好，一般不用改
+  category: "Comments"
+  categoryId: "在这里填 data-category-id"
+```
+
+6. 提交推送，评论区即可正常工作
+
+> 没配置之前，页面底部会一直显示「正在加载评论…」，不影响正文阅读。
+
+---
+
+## 索引与检索
+
+四条路径，都不需要手动维护目录页：
+
+| 方式 | 位置 | 适合 |
+| --- | --- | --- |
+| 文件夹树 | 左侧栏 | 知道大概在哪个分区 |
+| 全站搜索 | 顶栏 | 记得关键词，忘了在哪 |
+| 标签 | 笔记顶部 / `/tags/` | 跨目录的主题聚合 |
+| 关系图 | 右侧栏 | 顺着双链发现关联 |
+
+`index.md` 是首页，用表格做分区导航。新建文件夹后，该目录会自动生成索引页。
+
+---
+
+## 草稿与私密内容
+
+- frontmatter 写 `draft: true` → 不发布
+- 放进 `private/` 目录 → 不发布
+- `ignorePatterns` 里可以继续加要排除的路径
+
+---
+
+## 目录结构
+
+```
+├── content/              # 笔记正文（Obsidian Vault 就指这里）
+│   ├── index.md          # 首页
+│   └── assets/           # 构建时自动生成的图片目录
+├── tools/
+│   └── sync-vault.mjs    # 同步 + 图片归类脚本
+├── quartz.config.yaml    # 站点配置：标题、配色、插件、布局
+├── quartz/styles/custom.scss  # ArchWiki 风格样式
+├── bibliography.bib      # Zotero 导出的文献库
+└── .github/workflows/deploy.yml  # 自动部署
+```
+
+---
+
+## 常用配置
+
+| 想改什么 | 改哪里 |
+| --- | --- |
+| 站点标题 | `quartz.config.yaml` → `pageTitle` |
+| 主色调 | `quartz.config.yaml` → `theme.colors.lightMode.secondary` |
+| 字体 | `theme.typography` + `custom.scss` 顶部字体栈 |
+| 右侧栏放什么 | `quartz.config.yaml` 里组件的 `layout.position` |
+| 引用样式 | citations 插件的 `csl` |
+
+改完跑 `npm run preview` 看效果，满意再推送。
+
+---
+
+## 本地故障排查
+
+```bash
+# 依赖装不上
+rm -rf node_modules && npm ci
+
+# 构建报错，想看详细
+npx quartz build --verbose
+
+# 只想看图片归类结果，不写文件
+npm run sync:dry
+```

@@ -1,0 +1,360 @@
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
+# ============================================================
+#  Koishiu 的个人知识 Wiki  ——  Obsidian × Quartz
+#  风格参考 ArchWiki：三栏布局 / 高信息密度 / 内容优先
+# ============================================================
+configuration:
+  pageTitle: "Koishiu 的知识库"
+  pageTitleSuffix: ""
+  enableSPA: true
+  enablePopovers: true
+  locale: zh-CN
+  baseUrl: koishiu7.github.io
+
+  # 这些目录/文件不会被发布
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+    - .trash
+    - .git
+    - "未命名*"
+
+  theme:
+    # 使用系统/本地字体栈，不依赖 Google Fonts（国内访问更快）
+    fontOrigin: local
+    cdnCaching: true
+    typography:
+      title:
+        name: "Inter"
+        weights: [600, 700]
+      header:
+        name: "Inter"
+        weights: [600, 700]
+      body:
+        name: "Inter"
+        weights: [400, 500, 600]
+        includeItalic: true
+      code:
+        name: "JetBrains Mono"
+        weights: [400, 600]
+
+    # ArchWiki 蓝为主色，浅色偏冷白、深色偏石墨
+    colors:
+      lightMode:
+        light: "#ffffff"
+        lightgray: "#f4f6f8"
+        gray: "#c9d1d9"
+        darkgray: "#4a5560"
+        dark: "#1b232b"
+        secondary: "#1793d1"
+        tertiary: "#0f6a99"
+        highlight: rgba(23, 147, 209, 0.12)
+        textHighlight: "#fff23688"
+      darkMode:
+        light: "#16181d"
+        lightgray: "#23262d"
+        gray: "#5c6470"
+        darkgray: "#b9c0c9"
+        dark: "#eef1f5"
+        secondary: "#5cb8ec"
+        tertiary: "#84a59d"
+        highlight: rgba(92, 184, 236, 0.15)
+        textHighlight: "#b3aa0288"
+
+plugins:
+  # ---------- 转换器（处理内容） ----------
+  # 元信息插件：必须启用（它负责剥离 frontmatter），但隐藏表格显示
+  - source: "@quartz-community/note-properties"
+    enabled: true
+    options:
+      includeAll: false
+      includedProperties:
+        - description
+        - tags
+        - aliases
+      excludedProperties: []
+      hidePropertiesView: true
+      delimiters: "---"
+      language: yaml
+    order: 5
+    layout:
+      position: beforeBody
+      priority: 15
+      display: all
+
+  - source: "@quartz-community/created-modified-date"
+    enabled: true
+    options:
+      defaultDateType: modified
+      priority:
+        - frontmatter
+        - git
+        - filesystem
+    order: 10
+
+  - source: "@quartz-community/syntax-highlighting"
+    enabled: true
+    options:
+      theme:
+        light: github-light
+        dark: github-dark
+      keepBackground: false
+    order: 20
+
+  - source: "@quartz-community/obsidian-flavored-markdown"
+    enabled: true
+    options:
+      enableInHtmlEmbed: false
+      enableCheckbox: true
+    order: 30
+
+  - source: "@quartz-community/github-flavored-markdown"
+    enabled: true
+    order: 40
+
+  - source: "@quartz-community/table-of-contents"
+    enabled: true
+    order: 50
+    layout:
+      position: right
+      priority: 30
+
+  - source: "@quartz-community/crawl-links"
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+    order: 60
+
+  - source: "@quartz-community/description"
+    enabled: true
+    order: 70
+
+  - source: "@quartz-community/latex"
+    enabled: true
+    options:
+      renderEngine: katex
+    order: 80
+
+  # ---------- Zotero 论文引用 ----------
+  # 用 Zotero + Better BibTeX 导出 bibliography.bib 覆盖仓库根目录同名文件即可。
+  # 正文里写 [@citekey] 就能生成引用与文末参考文献表。
+  - source: "@quartz-community/citations"
+    enabled: true
+    options:
+      bibliographyFile: "./bibliography.bib"
+      suppressBibliography: false
+      linkCitations: true
+      csl: apa
+    order: 85
+
+  - source: "@quartz-community/hard-line-breaks"
+    enabled: false
+  - source: "@quartz-community/ox-hugo"
+    enabled: false
+  - source: "@quartz-community/roam"
+    enabled: false
+
+  - source: "@quartz-community/quartz-fonts"
+    enabled: true
+
+  - source: "@quartz-community/remove-draft"
+    enabled: true
+
+  # 草稿：frontmatter 里写 draft: true 的笔记不会发布
+  - source: "@quartz-community/explicit-publish"
+    enabled: false
+
+  - source: "@quartz-community/alias-redirects"
+    enabled: true
+
+  # ---------- 页面类型 ----------
+  - source: "@quartz-community/content-index"
+    enabled: true
+    options:
+      enableSiteMap: true
+      enableRSS: true
+
+  - source: "@quartz-community/favicon"
+    enabled: true
+  - source: "@quartz-community/og-image"
+    enabled: true
+  - source: "@quartz-community/cname"
+    enabled: true
+
+  - source: "@quartz-community/canvas-page"
+    enabled: true
+  - source: "@quartz-community/content-page"
+    enabled: true
+
+  # 文件夹索引页：/笔记/ 自动生成该目录下所有笔记的列表
+  - source: "@quartz-community/folder-page"
+    enabled: true
+
+  # 标签索引页：/tags/xxx 自动聚合
+  - source: "@quartz-community/tag-page"
+    enabled: true
+
+  - source: "@quartz-community/unlisted-pages"
+    enabled: true
+    order: 45
+
+  - source: "@quartz-community/encrypted-pages"
+    enabled: true
+    options:
+      iterations: 600000
+      passwordField: password
+      unlistWhenEncrypted: false
+      outputPath: static/encryptedContentIndex.json
+    order: 900
+
+  - source: "@quartz-community/bases-page"
+    enabled: true
+    order: 50
+
+  # ---------- 布局组件 ----------
+
+  # 左侧：文件夹树（ArchWiki 的侧边导航）
+  - source: "@quartz-community/explorer"
+    enabled: true
+    layout:
+      position: left
+      priority: 50
+
+  # 左侧顶部：站名
+  - source: "@quartz-community/page-title"
+    enabled: true
+    layout:
+      position: left
+      priority: 10
+
+  # 左侧工具栏：搜索 / 深色模式 / 阅读模式
+  - source: "@quartz-community/search"
+    enabled: true
+    layout:
+      position: left
+      priority: 20
+      group: toolbar
+      groupOptions:
+        grow: true
+
+  - source: "@quartz-community/darkmode"
+    enabled: true
+    layout:
+      position: left
+      priority: 30
+      group: toolbar
+
+  - source: "@quartz-community/reader-mode"
+    enabled: true
+    layout:
+      position: left
+      priority: 35
+      group: toolbar
+
+  - source: "@quartz-community/spacer"
+    enabled: true
+    layout:
+      position: left
+      priority: 25
+      display: mobile-only
+
+  # 右侧：关系图 / 目录 / 反向链接（ArchWiki 的 "在本页" 栏）
+  - source: "@quartz-community/graph"
+    enabled: true
+    layout:
+      position: right
+      priority: 10
+
+  - source: "@quartz-community/backlinks"
+    enabled: true
+    layout:
+      position: right
+      priority: 50
+
+  # 正文前：面包屑 / 标题 / 元信息 / 标签
+  - source: "@quartz-community/breadcrumbs"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 5
+      condition: not-index
+
+  - source: "@quartz-community/article-title"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+
+  - source: "@quartz-community/content-meta"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 20
+
+  - source: "@quartz-community/tag-list"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 30
+
+  # 正文后：评论（giscus）
+  # ⚠️ category / categoryId 需要你先在仓库开启 Discussions 后填入，见 README
+  - source: "@quartz-community/comments"
+    enabled: true
+    options:
+      provider: giscus
+      options:
+        repo: "koishiu7/koishiu7.github.io"
+        repoId: "1437762333"
+        category: "Comments"
+        categoryId: "REPLACE_ME"
+        mapping: pathname
+        strict: true
+        reactionsEnabled: true
+        inputPosition: bottom
+        lightTheme: light
+        darkTheme: dark
+        lang: zh-CN
+    layout:
+      position: afterBody
+      priority: 10
+
+  - source: "@quartz-community/footer"
+    enabled: true
+    options:
+      links:
+        GitHub: https://github.com/koishiu7/koishiu7.github.io
+    layout:
+      position: footer
+      priority: 50
+
+  # 首页/文件夹页展示最近更新
+  - source: "@quartz-community/recent-notes"
+    enabled: true
+
+layout:
+  groups:
+    toolbar:
+      priority: 35
+      direction: row
+      gap: 0.5rem
+  byPageType:
+    "404":
+      positions:
+        beforeBody: []
+        left: []
+        right: []
+    content: {}
+    folder:
+      exclude:
+        - reader-mode
+      positions:
+        right: []
+    tag:
+      exclude:
+        - reader-mode
+      positions:
+        right: []
+    canvas: {}
+    bases: {}
