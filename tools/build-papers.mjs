@@ -10,6 +10,9 @@
  *
  * 然后统一复制到 content/assets/papers/ 并生成预览页（内嵌阅读 + 下载）。
  *
+ * 是否重新转换由 content/assets/papers/manifest.json 里记录的源文件哈希决定：
+ *   docx 没改 → 跳过；改了 → 重转。所以在 CI 里也能准确判断，不依赖文件时间。
+ *
  * 用法：
  *   node tools/build-papers.mjs              # 本地：有 Word 用 Word，否则 OnlyOffice / LibreOffice
  *   node tools/build-papers.mjs --no-convert # 云端主构建：只出预览页，转换交给 convert-papers workflow
@@ -20,19 +23,38 @@ import fs from "node:fs"
 import path from "node:path"
 import process from "node:process"
 import os from "node:os"
+import crypto from "node:crypto"
 import { spawnSync } from "node:child_process"
 
 const DRY = process.argv.includes("--dry")
 // --no-convert：只处理已有 PDF 并生成预览页，不尝试转换 docx
 // （主构建用这个，docx 转换交给独立的 convert-papers workflow）
 const NO_CONVERT = process.argv.includes("--no-convert")
+// --force：忽略清单，强制重新转换（想用 Word 覆盖云端产出的 PDF 时用）
+const FORCE = process.argv.includes("--force")
 const CONTENT_DIR = path.resolve(process.env.QUARTZ_CONTENT || "content")
 const OUT_DIR = path.join(CONTENT_DIR, "assets", "papers")
+// 记录「哪个 docx 的哪一版已经转成 PDF 了」。
+// 只靠「PDF 在不在」判断会漏掉「docx 改了内容」这种情况，
+// 只靠 mtime 判断在 CI 里又不成立（checkout 会把时间全部刷新）。
+const MANIFEST = path.join(OUT_DIR, "manifest.json")
 const SKIP_DIRS = new Set(["assets", ".obsidian", ".trash", ".git", "node_modules", "private"])
 
 const stats = { pdf: 0, converted: 0, pages: 0, skipped: 0, failed: 0 }
 
 // ---------------------------------------------------------------- 工具
+
+function sha256(file) {
+  return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex")
+}
+
+function readManifest() {
+  try {
+    return JSON.parse(fs.readFileSync(MANIFEST, "utf-8"))
+  } catch {
+    return {}
+  }
+}
 
 function walk(dir, out = []) {
   if (!fs.existsSync(dir)) return out
@@ -245,6 +267,9 @@ function main() {
     }
   }
 
+  const manifest = readManifest()
+  let manifestDirty = false
+
   for (const file of files) {
     const ext = path.extname(file).toLowerCase()
     const base = path.basename(file, ext)
@@ -256,21 +281,41 @@ function main() {
       stats.pdf++
       console.log(`  · PDF  ${base}`)
     } else {
-      // 同目录已有同名 PDF → 直接用，保真度最高
+      const hash = sha256(file)
+      const relSource = path.relative(CONTENT_DIR, file).split(path.sep).join("/")
+      // 还没有清单条目、但 PDF 已经在 → 认账（历史产物，不判成「待转换」）
+      if (!manifest[slug] && fs.existsSync(pdfTarget)) {
+        manifest[slug] = { source: relSource, hash }
+        manifestDirty = true
+      }
+      // 你现在这一版的 docx 是否已经转过
+      const upToDate = !FORCE && fs.existsSync(pdfTarget) && manifest[slug]?.hash === hash
+
+      // 同目录已有同名 PDF → 直接用，保真度最高（你想精确控版式时的手动导出）
       const sibling = path.join(path.dirname(file), `${base}.pdf`)
-      let existing = fs.existsSync(sibling) ? sibling : pdfBySlug.get(slug)
-      // 云端（convert-papers workflow）已经转换好并提交的 PDF
-      if (!existing && fs.existsSync(pdfTarget)) existing = pdfTarget
+      const existing = FORCE ? null : fs.existsSync(sibling) ? sibling : pdfBySlug.get(slug)
 
       if (existing) {
         if (!DRY && path.resolve(existing) !== path.resolve(pdfTarget)) {
           fs.copyFileSync(existing, pdfTarget)
         }
+        if (manifest[slug]?.hash !== hash) {
+          manifest[slug] = { source: relSource, hash }
+          manifestDirty = true
+        }
         console.log(`  · DOCX ${base} → 复用已有 PDF`)
+      } else if (upToDate) {
+        // 云端转过、且 docx 没再改动 → 不重复转换（这是构建保持快的关键）
+        console.log(`  · DOCX ${base} → 已是最新转换`)
       } else if (NO_CONVERT) {
         // 主构建不等转换：先落一个占位页，PDF 到位后会被自动覆盖
         stats.skipped++
-        console.log(`  ⏳ DOCX ${base} → 等待云端转换（convert-papers workflow）`)
+        const why = FORCE
+          ? "强制重新转换"
+          : fs.existsSync(pdfTarget)
+            ? "docx 有改动，待重新转换"
+            : "等待云端转换"
+        console.log(`  ⏳ DOCX ${base} → ${why}`)
         const pendingPath = path.join(path.dirname(file), `${base}.md`)
         const isGenerated =
           !fs.existsSync(pendingPath) ||
@@ -301,6 +346,8 @@ function main() {
           continue
         }
         stats.converted++
+        manifest[slug] = { source: relSource, hash }
+        manifestDirty = true
         console.log(`  · DOCX ${base} → ${slug}.pdf（${label}）`)
       }
     }
@@ -316,6 +363,11 @@ function main() {
     }
     if (!DRY) fs.writeFileSync(mdPath, previewMarkdown(base, slug), "utf-8")
     stats.pages++
+  }
+
+  if (!DRY && manifestDirty) {
+    const sorted = Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b)))
+    fs.writeFileSync(MANIFEST, JSON.stringify(sorted, null, 2) + "\n", "utf-8")
   }
 
   console.log(

@@ -15,6 +15,7 @@
     "sync": "node tools/sync-vault.mjs",
     "sync:dry": "node tools/sync-vault.mjs --dry",
     "papers": "node tools/build-papers.mjs",
+    "papers:force": "node tools/build-papers.mjs --force",
     "papers:cloud": "node tools/build-papers.mjs --no-convert",
     "preview": "node tools/sync-vault.mjs && node tools/build-papers.mjs && npx quartz build --serve",
     "build": "node tools/sync-vault.mjs && node tools/build-papers.mjs && npx quartz build",
