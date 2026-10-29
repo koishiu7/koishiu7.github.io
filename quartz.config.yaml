@@ -311,25 +311,17 @@ plugins:
     options:
       provider: giscus
       options:
-        data-repo="koishiu7/koishiu7.github.io"
-        data-repo-id="R_kgDOVbKDHQ"
-        data-category="General"
-        data-category-id="DIC_kwDOVbKDHc4DJ3-I"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        mapping: pathname
-        strict: true
-        reactionsEnabled: true
-        inputPosition: bottom
-        lightTheme: light
-        darkTheme: dark
-        lang: zh-CN
+        repo: 'koishiu7/koishiu7.github.io',
+        repoId: 'R_kgDOVbKDHQ',
+        category: 'General',
+        categoryId: 'DIC_kwDOVbKDHc4DJ3-I',
+        mapping: 'pathname',
+        strict: true,             // 注意：Giscus 里 0 代表 false，1 代表 true
+        reactionsEnabled: true,
+        inputPosition: 'bottom',
+        lang: 'zh-CN',
+        lightTheme: 'light',
+        darkTheme: 'dark',
     layout:
       position: afterBody
       priority: 10
