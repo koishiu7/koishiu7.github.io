@@ -114,7 +114,7 @@ export OBSIDIAN_VAULT="D:/path/to/your/vault"
 
 | 工作流 | 触发条件 | 做什么 | 耗时 |
 | --- | --- | --- | --- |
-| `convert-papers.yml` | 推送里含 `.docx` / `.doc` | 装 LibreOffice，转 PDF，把结果提交回 `content/assets/papers/` | 2–4 分钟 |
+| `convert-papers.yml` | 推送里含 `.docx` / `.doc` | 装 LibreOffice（镜像已自带，通常免装），转 PDF，把结果提交回 `content/assets/papers/` | 约 1–2 分钟 |
 | `deploy.yml` | `content/**` 等有改动 | 只搬运已有 PDF、生成预览页、构建发布 | 1–2 分钟 |
 
 关键点：**发布流程从不转换文档**（`build-papers.mjs --no-convert`），所以装 LibreOffice、跑 Word 转换再慢，也拖不到站点构建。
@@ -123,21 +123,27 @@ export OBSIDIAN_VAULT="D:/path/to/your/vault"
 
 1. 你的 docx 先被发布一次，页面上显示「正在转换」的占位提示 —— 笔记不会凭空消失
 2. 转换工作流同时跑完，把 PDF 提交回仓库
-3. 这次提交又触发一次发布，几十秒后刷新页面，PDF 就能直接在线看了
+3. 转换工作流主动再触发一次发布，几十秒后刷新页面，PDF 就能直接在线看了
 
-全程约 3–5 分钟，你只做了一次 `git push`。
+实测全程约 2 分钟，你只做了一次 `git push`。
 
 ### 想要 Word 的精确排版
 
-LibreOffice 偶尔会把复杂版式（公式、特殊字体、分栏）排得和 Word 不太一样。若在意：
+云端用的是 LibreOffice。它能把中文正确渲染（内嵌 Noto Sans CJK），但**字体和 Word 原稿可能不同**——
+复杂公式、分栏、特殊字体的版式也可能有细微出入。若在意：
 
 ```bash
-npm run papers        # 本地用 Microsoft Word COM 导出，保真度最高
-git add content/assets/papers && git commit -m "论文 PDF" && git push
+npm run papers:force   # 本地用 Microsoft Word 导出，覆盖云端那份
+git add content/assets/papers && git commit -m "论文 PDF（Word 版）" && git push
 ```
 
 本地转换器优先级：**Microsoft Word → OnlyOffice → LibreOffice**。
-只要你提交了 PDF，云端就不会再转一次（同名 PDF 优先复用）。
+
+平时用 `npm run papers` 就够了：它按哈希判断，docx 没改过就直接跳过，不会白跑一次 Word。
+
+> 云端和本地谁产出的 PDF 都能用，判断依据只有一条：
+> `content/assets/papers/manifest.json` 里记着「这份 docx 的哪一版已经转过了」。
+> 所以 docx 一改，下次推送就会自动重转。
 
 ---
 
