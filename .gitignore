@@ -6,9 +6,12 @@ prof
 tsconfig.tsbuildinfo
 .obsidian
 .quartz-cache
-private/
 .replit
 replit.nix
 .quartz/
 quartz/cli/tui/dist/
 .turbo/
+private/
+哲学/
+通识/
+创作/
