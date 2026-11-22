@@ -16,3 +16,6 @@ quartz/cli/tui/dist/
 /哲学/
 /通识/
 /创作/
+
+# Obsidian 的隐私内容：放在 content/private/，永不入库（Quartz 侧也有 ignorePatterns）
+content/private/
