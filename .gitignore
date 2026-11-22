@@ -11,7 +11,8 @@ replit.nix
 .quartz/
 quartz/cli/tui/dist/
 .turbo/
-private/
-哲学/
-通识/
-创作/
+# 只忽略仓库根目录下的旧 Vault 结构，别误伤 content/ 里的同名笔记区
+/private/
+/哲学/
+/通识/
+/创作/
